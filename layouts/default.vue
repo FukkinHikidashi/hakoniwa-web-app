@@ -1,33 +1,35 @@
 <template>
-  <v-app dark>
+<div>
+  <nuxt />
+  <v-bottom-navigation
+    v-model="bottomNav"
+    fixed = "true"
+  >
+    <v-btn value="recent">
+      <span>Recent</span>
+      <v-icon>add</v-icon>
+    </v-btn>
 
-  </v-app>
+    <v-btn value="favorites">
+      <span>Favorites</span>
+      <v-icon>favorite</v-icon>
+    </v-btn>
+
+    <v-btn value="nearby">
+      <span>Nearby</span>
+      <v-icon>place</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
+
+</div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+  export default {
+    data () {
+      return {
+        bottomNav: 'recent',
+      }
+    },
   }
-}
 </script>
