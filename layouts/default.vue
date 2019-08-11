@@ -3,7 +3,7 @@
   <nuxt />
   <v-bottom-navigation
     v-model="bottomNav"
-    fixed = "true"
+    fixed
   >
     <v-btn value="recent">
       <span>Recent</span>
