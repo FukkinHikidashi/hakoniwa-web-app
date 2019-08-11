@@ -1132,7 +1132,7 @@
     consola "^2.5.6"
     http-proxy-middleware "^0.19.1"
 
-"@nuxtjs/vuetify@^1.0.0":
+"@nuxtjs/vuetify@^1.0.5":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.2.1.tgz#a8de3c111bea4a52488e780877da6bd068c87bb1"
   integrity sha512-oDiL6O1LSyiwSDs2hVZ7rwM9KMht/yPYDMhdOL+oP3RWCfcsgk2kYZrbFNKf23U5ZVzVDVjwbDX/hFOno/F7QA==
