@@ -3,10 +3,9 @@
   <v-card
     color="grey lighten-4"
     flat
-    height="200px"
     tile
   >
-    <v-toolbar extended extension-height="100">
+    <v-toolbar>
       <v-toolbar-title>TeamName</v-toolbar-title>
 
       <div >
