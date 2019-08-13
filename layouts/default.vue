@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-app>
   <v-card
     color="grey lighten-4"
     flat
@@ -13,12 +13,10 @@
         <span>残り時間</span>
       </div>
 
-        <v-btn fab >
-          <v-img
-            src="https://www.homepage-tukurikata.com/image/lion.jpg"
-            cover
-          >
-          </v-img>
+        <v-btn
+        to='/mainMission/'
+        color="primary">
+          <v-img :src="lineIcon" />
         </v-btn>
 
     </v-toolbar>
@@ -35,7 +33,7 @@
       to="/"
     >
       <span>Home</span>
-      <v-icon>add</v-icon>
+      <v-icon>mdi-home</v-icon>
     </v-btn>
 
     <v-btn
@@ -43,7 +41,7 @@
       to="/mainMission"
     >
       <span>MainMission</span>
-      <v-icon>favorite</v-icon>
+      <v-icon>mdi-heart</v-icon>
     </v-btn>
 
     <v-btn
@@ -51,7 +49,7 @@
       to="/subMission"
     >
       <span>SubMission</span>
-      <v-icon>place</v-icon>
+      <v-icon>mdi-note</v-icon>
     </v-btn>
 
     <v-btn
@@ -59,19 +57,21 @@
       to="/library"
     >
       <span>Library</span>
-      <v-icon>place</v-icon>
+      <v-icon>mdi-book</v-icon>
     </v-btn>
 
   </v-bottom-navigation>
 
-</div>
+</v-app>
 </template>
 
 <script>
+  import lineIcon from "@/static/line-icon.png";
   export default {
     data () {
       return {
         activeBtn: 1,
+        bottomNav: true
       }
     },
   }
