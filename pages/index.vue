@@ -1,11 +1,6 @@
 <template>
 <div>
 
-        <v-btn fab large fixed right bottom
-        color="primary"
-        style="bottom: 80px">
-        <v-icon>mdi-plus</v-icon>
-        </v-btn>
 
   <h2>Hello World</h2>
 <v-container>
