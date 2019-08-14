@@ -1,8 +1,33 @@
 <template>
 <div>
-  <h2>This is mainMission</h2>
+  <h2>メインミッション</h2>
+
+
+  <!--ビンゴカード　上ほどステージが進む -->
+  <v-container v-if="nowStage === 4">
+    {{missionDatas[0].text}}
+  </v-container>
+
+  <v-container v-if="nowStage === 3">
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="20vh" height="20vh" tile>1</v-card>
+      <v-card width="20vh" height="20vh" tile>2</v-card>
+
+      <v-card width="20vh" height="20vh" tile>3</v-card>
+      <v-card width="20vh" height="20vh" tile>4</v-card>
+      </v-layout>
+  </v-container>
+
+  <v-container v-if="nowStage === 2">
+    bbb
+  </v-container>
+
+  <v-container v-if="nowStage === 1">
+    ccc
+  </v-container>
+
   <v-container>
-    <v-card color="warning" class="ma-2 align-center justify-center" style="height: 30vh"
+    <v-card color="warning" class="ma-2 align-center justify-center" style="height: 10vh"
     @click="dialog = true">
       <p>ここにミッションの内容を表示</p>
     <v-layout>
@@ -16,25 +41,6 @@
     </v-card>
     </v-dialog>
 
-  <!--ビンゴカード　上ほどステージが進む -->
-<v-container>
-  <v-layout v-if="nowStage === 4">
-    {{missionDatas[0].text}}
-  </v-layout>
-
-  <v-layout v-if="nowStage === 3">
-    aaa
-  </v-layout>
-
-  <v-layout v-if="nowStage === 2">
-    bbb
-  </v-layout>
-
-  <v-layout v-if="nowStage === 1">
-    ccc
-  </v-layout>
-</v-container>
-
 
   
 </div>
@@ -45,7 +51,7 @@
     data() {
       return{
         dialog: false,
-        nowStage: 4,
+        nowStage: 3,
         missionDatas: [
           {
             id: 1,
@@ -184,3 +190,11 @@
   
 
 </script>
+
+<style>
+
+h2 {
+  text-align: center
+}
+
+</style>
