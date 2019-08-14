@@ -1,8 +1,23 @@
 <template>
 <div>
-  <h2>メインミッション</h2>
+<v-card class="mt-3 mb-3 justify-center" width="40%" tile flat>
+  <h3>合計得点：100pt</h3>
+</v-card>
 
 
+        <v-tabs
+        v-model="tab"
+        background-color="amber lighten-4"
+        color="orange accent-4"
+        
+        >
+            <v-tab>1階</v-tab>
+            <v-tab>2階</v-tab>
+            <v-tab>3階</v-tab>
+            <v-tab>4階</v-tab>
+        </v-tabs>
+
+<v-card color="amber lighten-3" tile>
   <!--ビンゴカード　上ほどステージが進む -->
   <v-container v-if="nowStage === 4">
     {{missionDatas[0].text}}
@@ -12,7 +27,7 @@
       <v-layout justify-center wrap width="100vw">
       <v-card width="20vh" height="20vh" tile>1</v-card>
       <v-card width="20vh" height="20vh" tile>2</v-card>
-
+      
       <v-card width="20vh" height="20vh" tile>3</v-card>
       <v-card width="20vh" height="20vh" tile>4</v-card>
       </v-layout>
@@ -25,6 +40,7 @@
   <v-container v-if="nowStage === 1">
     ccc
   </v-container>
+</v-card>
 
   <v-container>
     <v-card color="warning" class="ma-2 align-center justify-center" style="height: 10vh"
@@ -52,6 +68,7 @@
       return{
         dialog: false,
         nowStage: 3,
+        tab: true,
         missionDatas: [
           {
             id: 1,

@@ -6,8 +6,18 @@
     tile
   >
     <v-toolbar>
-      <v-toolbar-title>TeamName</v-toolbar-title>
+        <v-btn
+        fab
+        dark
+        right
+        color="primary"
+        style="margin-right: 2vw">
+        TEAM<br>A
+        </v-btn>
+        <v-spacer />
+      <v-toolbar-title><h2>Aチーム</h2></v-toolbar-title>
 
+      <v-spacer></v-spacer>
         <v-btn
         fab
         dark
