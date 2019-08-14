@@ -8,14 +8,21 @@
     <v-toolbar>
       <v-toolbar-title>TeamName</v-toolbar-title>
 
-      <div >
-        <span>残り時間</span>
-      </div>
+        <v-btn
+        fab
+        dark
+        right
+        color="green"
+        style="margin-right: 3vw">
+        LINE
+        </v-btn>
 
         <v-btn
-        to='/mainMission/'
-        color="primary">
-          <v-img :src="lineIcon" />
+        fab
+        dark
+        right
+        color="green">
+        <v-icon>mdi-phone</v-icon>
         </v-btn>
 
     </v-toolbar>
