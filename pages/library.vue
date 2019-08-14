@@ -1,9 +1,18 @@
 <template>
 <div>
-  <h2>This is library</h2>
-    <v-layout>
-  <v-icon>mdi-plus</v-icon>
-  </v-layout>
+
+        <v-tabs
+        v-model="tab"
+        hide-slider
+        class="mt-3"
+        >
+        <v-layout>
+            <v-tab>Photos</v-tab>
+            <v-tab>Logs</v-tab>
+            <v-tab disabled>Trails</v-tab>
+        </v-layout>
+        </v-tabs>
+
 </div>
 </template>
 
