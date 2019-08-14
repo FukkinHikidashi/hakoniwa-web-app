@@ -11,19 +11,35 @@
         color="orange accent-4"
         
         >
+        <v-layout justify-space-around>
             <v-tab>1階</v-tab>
             <v-tab>2階</v-tab>
             <v-tab>3階</v-tab>
             <v-tab>4階</v-tab>
+        </v-layout>
         </v-tabs>
 
-<v-card color="amber lighten-3" tile>
+<v-tabs-items
+v-model="tab">
+<v-tab-item>
   <!--ビンゴカード　上ほどステージが進む -->
-  <v-container v-if="nowStage === 4">
-    {{missionDatas[0].text}}
+  <v-container v-if="nowStage >= 1">
+    ステージ1
   </v-container>
+</v-tab-item>
 
-  <v-container v-if="nowStage === 3">
+<v-tab-item>
+    <v-container v-if="nowStage >= 2">
+    ステージ2
+  </v-container>
+  <v-container v-else>
+    まだだよ
+  </v-container>
+</v-tab-item>
+
+<v-tab-item>
+
+  <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
       <v-card width="20vh" height="20vh" tile>1</v-card>
       <v-card width="20vh" height="20vh" tile>2</v-card>
@@ -32,15 +48,22 @@
       <v-card width="20vh" height="20vh" tile>4</v-card>
       </v-layout>
   </v-container>
-
-  <v-container v-if="nowStage === 2">
-    bbb
+  <v-container v-else>
+    まだだよ
   </v-container>
+</v-tab-item>
 
-  <v-container v-if="nowStage === 1">
-    ccc
+
+<v-tab-item>
+
+  <v-container v-if="nowStage === 4">
+    ステージ4
   </v-container>
-</v-card>
+  <v-container v-else>
+    まだだよ
+  </v-container>
+</v-tab-item>
+</v-tabs-items>
 
   <v-container>
     <v-card color="warning" class="ma-2 align-center justify-center" style="height: 10vh"
@@ -67,8 +90,8 @@
     data() {
       return{
         dialog: false,
-        nowStage: 3,
-        tab: true,
+        nowStage: 2,
+        tab: null,
         missionDatas: [
           {
             id: 1,
