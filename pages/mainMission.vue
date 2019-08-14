@@ -28,25 +28,25 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="12vh" height="12vh" tile>1</v-card>
-      <v-card width="12vh" height="12vh" tile>2</v-card>
-      <v-card width="12vh" height="12vh" tile>3</v-card>
-      <v-card width="12vh" height="12vh" tile>4</v-card>
+      <v-card width="22vw" height="22vw" tile>1</v-card>
+      <v-card width="22vw" height="22vw" tile>2</v-card>
+      <v-card width="22vw" height="22vw" tile>3</v-card>
+      <v-card width="22vw" height="22vw" tile>4</v-card>
       
-      <v-card width="12vh" height="12vh" tile>5</v-card>
-      <v-card width="12vh" height="12vh" tile>6</v-card>
-      <v-card width="12vh" height="12vh" tile>7</v-card>
-      <v-card width="12vh" height="12vh" tile>8</v-card>
+      <v-card width="22vw" height="22vw" tile>5</v-card>
+      <v-card width="22vw" height="22vw" tile>6</v-card>
+      <v-card width="22vw" height="22vw" tile>7</v-card>
+      <v-card width="22vw" height="22vw" tile>8</v-card>
 
-      <v-card width="12vh" height="12vh" tile>9</v-card>
-      <v-card width="12vh" height="12vh" tile>10</v-card>
-      <v-card width="12vh" height="12vh" tile>11</v-card>
-      <v-card width="12vh" height="12vh" tile>12</v-card>
+      <v-card width="22vw" height="22vw" tile>9</v-card>
+      <v-card width="22vw" height="22vw" tile>10</v-card>
+      <v-card width="22vw" height="22vw" tile>11</v-card>
+      <v-card width="22vw" height="22vw" tile>12</v-card>
 
-      <v-card width="12vh" height="12vh" tile>13</v-card>
-      <v-card width="12vh" height="12vh" tile>14</v-card>
-      <v-card width="12vh" height="12vh" tile>15</v-card>
-      <v-card width="12vh" height="12vh" tile>16</v-card>
+      <v-card width="22vw" height="22vw" tile>13</v-card>
+      <v-card width="22vw" height="22vw" tile>14</v-card>
+      <v-card width="22vw" height="22vw" tile>15</v-card>
+      <v-card width="22vw" height="22vw" tile>16</v-card>
       
       </v-layout> 
   </v-container>
@@ -57,17 +57,17 @@ v-model="tab">
 <v-tab-item>
     <v-container v-if="nowStage >= 2">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="16vh" height="16vh" tile>1</v-card>
-      <v-card width="16vh" height="16vh" tile>2</v-card>
+      <v-card width="30vw" height="30vw" tile>1</v-card>
+      <v-card width="30vw" height="30vw" tile>2</v-card>
       
-      <v-card width="16vh" height="16vh" tile>3</v-card>
-      <v-card width="16vh" height="16vh" tile>4</v-card>
-      <v-card width="16vh" height="16vh" tile>5</v-card>
-      <v-card width="16vh" height="16vh" tile>6</v-card>
+      <v-card width="30vw" height="30vw" tile>3</v-card>
+      <v-card width="30vw" height="30vw" tile>4</v-card>
+      <v-card width="30vw" height="30vw" tile>5</v-card>
+      <v-card width="30vw" height="30vw" tile>6</v-card>
       
-      <v-card width="16vh" height="16vh" tile>7</v-card>
-      <v-card width="16vh" height="16vh" tile>8</v-card>
-      <v-card width="16vh" height="16vh" tile>9</v-card>
+      <v-card width="30vw" height="30vw" tile>7</v-card>
+      <v-card width="30vw" height="30vw" tile>8</v-card>
+      <v-card width="30vw" height="30vw" tile>9</v-card>
       </v-layout>
   </v-container>
   <v-container v-else>
@@ -79,11 +79,11 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="20vh" height="20vh" tile>1</v-card>
-      <v-card width="20vh" height="20vh" tile>2</v-card>
+      <v-card width="40vw" height="40vw" tile>1</v-card>
+      <v-card width="40vw" height="40vw" tile>2</v-card>
       
-      <v-card width="20vh" height="20vh" tile>3</v-card>
-      <v-card width="20vh" height="20vh" tile>4</v-card>
+      <v-card width="40vw" height="40vw" tile>3</v-card>
+      <v-card width="40vw" height="40vw" tile>4</v-card>
       </v-layout>
   </v-container>
   <v-container v-else>
@@ -96,7 +96,7 @@ v-model="tab">
 
   <v-container v-if="nowStage === 4">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="30vh" height="30vh" tile>1</v-card>
+      <v-card width="50vw" height="50vw" tile>1</v-card>
 
       </v-layout>  </v-container>
   <v-container v-else>
