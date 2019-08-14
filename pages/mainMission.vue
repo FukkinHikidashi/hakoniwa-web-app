@@ -1,45 +1,132 @@
 <template>
 <div>
-  <h2>メインミッション</h2>
+<v-card class="mt-3 mb-3 justify-center" width="40%" tile flat>
+  <h3>合計得点：100pt</h3>
+</v-card>
 
 
+        <v-tabs
+        v-model="tab"
+        background-color="yellow lighten-4"
+        hide-slider
+        >
+        <v-layout justify-space-around>
+            <v-tab>1階</v-tab>
+            <v-tab>2階</v-tab>
+            <v-tab>3階</v-tab>
+            <v-tab>4階</v-tab>
+        </v-layout>
+        </v-tabs>
+
+<v-tabs-items
+v-model="tab">
+
+
+<v-tab-item>
   <!--ビンゴカード　上ほどステージが進む -->
-  <v-container v-if="nowStage === 4">
-    {{missionDatas[0].text}}
-  </v-container>
+  <v-card color="yellow" flat>
 
-  <v-container v-if="nowStage === 3">
+  <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="20vh" height="20vh" tile>1</v-card>
-      <v-card width="20vh" height="20vh" tile>2</v-card>
+      <v-card width="22vw" height="22vw" tile>1</v-card>
+      <v-card width="22vw" height="22vw" tile>2</v-card>
+      <v-card width="22vw" height="22vw" tile>3</v-card>
+      <v-card width="22vw" height="22vw" tile>4</v-card>
+      
+      <v-card width="22vw" height="22vw" tile>5</v-card>
+      <v-card width="22vw" height="22vw" tile>6</v-card>
+      <v-card width="22vw" height="22vw" tile>7</v-card>
+      <v-card width="22vw" height="22vw" tile>8</v-card>
 
-      <v-card width="20vh" height="20vh" tile>3</v-card>
-      <v-card width="20vh" height="20vh" tile>4</v-card>
+      <v-card width="22vw" height="22vw" tile>9</v-card>
+      <v-card width="22vw" height="22vw" tile>10</v-card>
+      <v-card width="22vw" height="22vw" tile>11</v-card>
+      <v-card width="22vw" height="22vw" tile>12</v-card>
+
+      <v-card width="22vw" height="22vw" tile>13</v-card>
+      <v-card width="22vw" height="22vw" tile>14</v-card>
+      <v-card width="22vw" height="22vw" tile>15</v-card>
+      <v-card width="22vw" height="22vw" tile>16</v-card>
+      
+      </v-layout> 
+  </v-container>
+  </v-card>
+
+</v-tab-item>
+
+<v-tab-item>
+    <v-container v-if="nowStage >= 2">
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="30vw" height="30vw" tile>1</v-card>
+      <v-card width="30vw" height="30vw" tile>2</v-card>
+      
+      <v-card width="30vw" height="30vw" tile>3</v-card>
+      <v-card width="30vw" height="30vw" tile>4</v-card>
+      <v-card width="30vw" height="30vw" tile>5</v-card>
+      <v-card width="30vw" height="30vw" tile>6</v-card>
+      
+      <v-card width="30vw" height="30vw" tile>7</v-card>
+      <v-card width="30vw" height="30vw" tile>8</v-card>
+      <v-card width="30vw" height="30vw" tile>9</v-card>
       </v-layout>
   </v-container>
-
-  <v-container v-if="nowStage === 2">
-    bbb
+  <v-container v-else>
+    まだだよ
   </v-container>
+</v-tab-item>
 
-  <v-container v-if="nowStage === 1">
-    ccc
+<v-tab-item>
+
+  <v-container v-if="nowStage >= 3">
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="40vw" height="40vw" tile>1</v-card>
+      <v-card width="40vw" height="40vw" tile>2</v-card>
+      
+      <v-card width="40vw" height="40vw" tile>3</v-card>
+      <v-card width="40vw" height="40vw" tile>4</v-card>
+      </v-layout>
   </v-container>
+  <v-container v-else>
+    まだだよ
+  </v-container>
+</v-tab-item>
 
-  <v-container>
-    <v-card color="warning" class="ma-2 align-center justify-center" style="height: 10vh"
+
+<v-tab-item>
+
+  <v-container v-if="nowStage === 4">
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="50vw" height="50vw" tile>1</v-card>
+
+      </v-layout>  </v-container>
+  <v-container v-else>
+    まだだよ
+  </v-container>
+</v-tab-item>
+
+</v-tabs-items>
+
+    <v-card color="warning" class="ma-2 align-center justify-center pa-1" style="height: 10vh"
     @click="dialog = true">
       <p>ここにミッションの内容を表示</p>
-    <v-layout>
-  </v-layout>
     </v-card>
-  </v-container>
 
   <v-dialog v-model="dialog">
     <v-card>
     ここに回答ボタンを設置
     </v-card>
     </v-dialog>
+  
+    <v-card color="green" class="ma-2 align-center justify-center pa-1">
+      <p>報告方法：画像をアップロードしてください</p>
+
+    </v-card>
+  <v-layout style="margin: 10px">
+    <v-spacer />
+  <v-btn color="green">
+    報告
+  </v-btn>
+  </v-layout>
 
 
   
@@ -51,7 +138,8 @@
     data() {
       return{
         dialog: false,
-        nowStage: 3,
+        nowStage: 4,
+        tab: null,
         missionDatas: [
           {
             id: 1,

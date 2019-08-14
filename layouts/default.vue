@@ -1,35 +1,43 @@
 <template>
 <v-app>
-  <v-card
-    color="grey lighten-4"
-    flat
-    tile
-  >
+<v-card>
     <v-toolbar>
-      <v-toolbar-title>TeamName</v-toolbar-title>
-
         <v-btn
         fab
         dark
+        color="primary"
+        >
+        TEAM<br>A
+        </v-btn>
+      <v-toolbar-title style="margin-left: 5vw"><h2>Aチーム</h2></v-toolbar-title>
+
+      <v-spacer></v-spacer>
+        <v-btn
+        fab
+        dark
+        fixed
         right
         color="green"
-        style="margin-right: 3vw">
+        style="margin-right: 18vw">
         LINE
         </v-btn>
+        <v-spacer />
 
         <v-btn
         fab
         dark
         right
+        fixed
         color="green">
         <v-icon>mdi-phone</v-icon>
         </v-btn>
 
     </v-toolbar>
-  </v-card>
+</v-card>
 
 
-  <nuxt />
+  <nuxt class="mt-3" style="margin-bottom: 10vh"/>
+
   <v-bottom-navigation
     v-model="bottomNav"
     fixed
