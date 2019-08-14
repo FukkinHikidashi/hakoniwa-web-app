@@ -21,11 +21,17 @@
 
 <v-tabs-items
 v-model="tab">
+
+
 <v-tab-item>
   <!--ビンゴカード　上ほどステージが進む -->
+  <v-card color="yellow">
+
   <v-container v-if="nowStage >= 1">
     ステージ1
   </v-container>
+  </v-card>
+
 </v-tab-item>
 
 <v-tab-item>
@@ -63,22 +69,30 @@ v-model="tab">
     まだだよ
   </v-container>
 </v-tab-item>
+
 </v-tabs-items>
 
-  <v-container>
-    <v-card color="warning" class="ma-2 align-center justify-center" style="height: 10vh"
+    <v-card color="warning" class="ma-2 align-center justify-center pa-1" style="height: 10vh"
     @click="dialog = true">
       <p>ここにミッションの内容を表示</p>
-    <v-layout>
-  </v-layout>
     </v-card>
-  </v-container>
 
   <v-dialog v-model="dialog">
     <v-card>
     ここに回答ボタンを設置
     </v-card>
     </v-dialog>
+  
+    <v-card color="green" class="ma-2 align-center justify-center pa-1">
+      <p>報告方法：画像をアップロードしてください</p>
+
+    </v-card>
+  <v-layout style="margin: 10px">
+    <v-spacer />
+  <v-btn color="green">
+    報告
+  </v-btn>
+  </v-layout>
 
 
   
@@ -90,7 +104,7 @@ v-model="tab">
     data() {
       return{
         dialog: false,
-        nowStage: 2,
+        nowStage: 4,
         tab: null,
         missionDatas: [
           {
