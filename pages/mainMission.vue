@@ -7,9 +7,8 @@
 
         <v-tabs
         v-model="tab"
-        background-color="amber lighten-4"
-        color="orange accent-4"
-        
+        background-color="yellow lighten-4"
+        hide-slider
         >
         <v-layout justify-space-around>
             <v-tab>1階</v-tab>
@@ -25,10 +24,31 @@ v-model="tab">
 
 <v-tab-item>
   <!--ビンゴカード　上ほどステージが進む -->
-  <v-card color="yellow">
+  <v-card color="yellow" flat>
 
   <v-container v-if="nowStage >= 1">
-    ステージ1
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="12vh" height="12vh" tile>1</v-card>
+      <v-card width="12vh" height="12vh" tile>2</v-card>
+      <v-card width="12vh" height="12vh" tile>3</v-card>
+      <v-card width="12vh" height="12vh" tile>4</v-card>
+      
+      <v-card width="12vh" height="12vh" tile>5</v-card>
+      <v-card width="12vh" height="12vh" tile>6</v-card>
+      <v-card width="12vh" height="12vh" tile>7</v-card>
+      <v-card width="12vh" height="12vh" tile>8</v-card>
+
+      <v-card width="12vh" height="12vh" tile>9</v-card>
+      <v-card width="12vh" height="12vh" tile>10</v-card>
+      <v-card width="12vh" height="12vh" tile>11</v-card>
+      <v-card width="12vh" height="12vh" tile>12</v-card>
+
+      <v-card width="12vh" height="12vh" tile>13</v-card>
+      <v-card width="12vh" height="12vh" tile>14</v-card>
+      <v-card width="12vh" height="12vh" tile>15</v-card>
+      <v-card width="12vh" height="12vh" tile>16</v-card>
+      
+      </v-layout> 
   </v-container>
   </v-card>
 
@@ -36,7 +56,19 @@ v-model="tab">
 
 <v-tab-item>
     <v-container v-if="nowStage >= 2">
-    ステージ2
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="16vh" height="16vh" tile>1</v-card>
+      <v-card width="16vh" height="16vh" tile>2</v-card>
+      
+      <v-card width="16vh" height="16vh" tile>3</v-card>
+      <v-card width="16vh" height="16vh" tile>4</v-card>
+      <v-card width="16vh" height="16vh" tile>5</v-card>
+      <v-card width="16vh" height="16vh" tile>6</v-card>
+      
+      <v-card width="16vh" height="16vh" tile>7</v-card>
+      <v-card width="16vh" height="16vh" tile>8</v-card>
+      <v-card width="16vh" height="16vh" tile>9</v-card>
+      </v-layout>
   </v-container>
   <v-container v-else>
     まだだよ
@@ -63,8 +95,10 @@ v-model="tab">
 <v-tab-item>
 
   <v-container v-if="nowStage === 4">
-    ステージ4
-  </v-container>
+      <v-layout justify-center wrap width="100vw">
+      <v-card width="30vh" height="30vh" tile>1</v-card>
+
+      </v-layout>  </v-container>
   <v-container v-else>
     まだだよ
   </v-container>
