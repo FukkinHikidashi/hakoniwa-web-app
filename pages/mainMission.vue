@@ -82,8 +82,24 @@ v-model="tab">
   <v-card color="light-blue lighten-4" flat>
   <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="40vw" height="40vw" tile>1</v-card>
-      <v-card width="40vw" height="40vw" tile>2</v-card>
+      <v-card
+      width="40vw" height="40vw"
+      tile
+      @click="displayMssionChange(1)"
+      :color="missionDatas[0].status"
+      >1
+        <p v-if="missionDatas[0].status=='yellow'">クリア</p>
+        <p v-if="missionDatas[0].status=='grey'">承認待ち</p>
+      </v-card>
+      <v-card
+      width="40vw" height="40vw"
+      tile
+      @click="displayMssionChange(2)"
+      :color="missionDatas[1].status"
+      >2
+        <p v-if="missionDatas[1].status=='yellow'">クリア</p>
+        <p v-if="missionDatas[1].status=='grey'">承認待ち</p>
+      </v-card>
       
       <v-card width="40vw" height="40vw" tile>3</v-card>
       <v-card width="40vw" height="40vw" tile>4</v-card>
@@ -114,9 +130,8 @@ v-model="tab">
 
 </v-tabs-items>
 
-    <v-card color="warning" class="ma-2 align-center justify-center pa-1" style="height: 10vh"
-    @click="dialog = true">
-      <p>ここにミッションの内容を表示</p>
+    <v-card color="warning" class="ma-2 align-center justify-center pa-1" style="height: 10vh">
+      <p>{{nowDisplayText}}</p>
     </v-card>
 
   <v-dialog v-model="dialog">
@@ -146,17 +161,20 @@ v-model="tab">
     data() {
       return{
         dialog: false,
-        nowStage: 2,
+        nowStage: 3,
         tab: null,
+        displayMission: 1,
+        nowDisplayText: "aaa",
         missionDatas: [
           {
             id: 1,
             title: "mission1",
-            text: "ここに問題文",
+            text: "犬の写真をとる！",
             photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
             answerType: "text", // ["text", "photo"]
             missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
+            difficulty: 1, // num
+            status: "grey"
           },{
             id: 2,
             title: "mission2",
@@ -164,7 +182,8 @@ v-model="tab">
             photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
             answerType: "text", // ["text", "photo"]
             missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
+            difficulty: 1, // num
+            status: "yellow"
           },{
             id: 3,
             title: "mission3",
@@ -172,7 +191,8 @@ v-model="tab">
             photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
             answerType: "text", // ["text", "photo"]
             missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
+            difficulty: 1, // num
+            status: ""
           },{
             id: 4,
             title: "mission4",
@@ -280,6 +300,12 @@ v-model="tab">
           }
         ]
 
+      }
+    },
+    methods: {
+      displayMssionChange(x){
+        this.nowDisplayText = this.missionDatas[x - 1].text
+        console.log(this.nowDisplayText)
       }
     }
     }

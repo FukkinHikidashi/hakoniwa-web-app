@@ -10,11 +10,7 @@
       </div>
     </div>
 
-    <v-btn fab color="accondary" @click="createTaxi(20)">
-      <v-icon>mdi-taxi</v-icon>
-    </v-btn>
-
-    <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center">
+    <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center" @click="allget">
         <h3>ミッション</h3>
     </div>
 
@@ -24,8 +20,8 @@
       multiple
       style="margin-top:5px"
     >
-      <v-expansion-panel v-show="false" style="border:solid 2px rgb(91,192,222,0.5)">
-        <div style="background-color:rgb(91,192,222,0.5)">1.捕らわれの女の子</div>
+      <v-expansion-panel v-show="true" style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)">{{title}}</div>
         <v-expansion-panel-header>
           <div style="width:30%"><p>未回答</p></div>
           <div style="width:70%"><p>キーワード：魚</p></div>
@@ -81,11 +77,10 @@
 <script>
   export default {
     data: () => ({
-      disabled: true,
       panel: [0, 1, 2, 3],
 //      mission:{
 //       quiz1:{
-//          title: "1.捕らわれの女の子",
+          title: "1.捕らわれの女の子",
 //          text:,
 //          story:,
 //          reply:,
@@ -96,28 +91,24 @@
 //      },
     }),
     methods:{
-      createTaxi(){
-        const lat = 100;
-        const lng = 200;
+      get(){
+        this.$firestore.doc(`Team/teamXX`).get()
+        .then(doc => {console.table(doc.data())}
+        )
 
-
-        this.$firestore.collection('taxis').add({
-          d:{
-            carPhotoUrl:"",
-            carType:"",
-            driver:{
-              name:"吉岡里帆",
-              faceUrl:"",
-              phone:"",
-              rate:4.8,
-              description:"" + Math.random
-            },
-            number:"AAA",
-            location:{lat:lat,lng:lng}
-          },
-
-        })
       },
+      allget(){
+        let citiesRef = this.$firestore.collection('Mission').get()
+          .then(snapshot => {
+          snapshot.forEach(doc => {
+            console.log(doc.id, '=>', doc.data());
+          });
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+      }
+
     }
   }
 </script>
