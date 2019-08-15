@@ -14,7 +14,7 @@
             background-color="black"
             dark
             color="white" />
-            
+
             <v-text-field
                 v-model="pw"
             label="Pasword"
@@ -42,9 +42,24 @@ export default {
         }
     },
     methods: {
-        login(){
-            this.$router.push("/")
-        }
+          login(){
+        //console.log(this.email,this.password)
+        if(!this.email || !this.password) return;
+
+        this.loading=true;
+        this.$auth
+          .signInWithEmailAndPassword(this.email,this.password)
+          .then(response=>{
+            this.$router.push()
+          })
+          .catch(err=>{
+            console.log(err)
+            this.errText = err.message
+          })
+          .finally(()=>{
+            this.loading = false;
+          })
+      }
     }
 
 }
