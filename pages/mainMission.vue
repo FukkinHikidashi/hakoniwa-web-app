@@ -178,7 +178,7 @@ v-model="tab">
           },{
             id: 2,
             title: "mission2",
-            text: "ここに問題文",
+            text: "千成ひょうたんの写真をとる！",
             photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
             answerType: "text", // ["text", "photo"]
             missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
