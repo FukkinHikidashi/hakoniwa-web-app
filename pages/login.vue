@@ -1,7 +1,7 @@
 <template>
     <v-container class="layout align-center">
         <v-layout row wrap class="pa-3">
-            <v-img :src="loginImage"/>
+            <v-img :src="loginImstakeforbreakfastage"/>
 
             <v-flex xs12 class="mt-5"><!-- mtでmargin-topの幅を決められる-->
                 <h1 color="info">
@@ -44,11 +44,11 @@ export default {
     methods: {
           login(){
         //console.log(this.email,this.password)
-        if(!this.email || !this.password) return;
+        if(!this.email || !this.pw) return;
 
         this.loading=true;
         this.$auth
-          .signInWithEmailAndPassword(this.email,this.password)
+          .signInWithEmailAndPassword(this.email,this.pw)
           .then(response=>{
             this.$router.push()
           })
