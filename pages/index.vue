@@ -13,7 +13,7 @@
 
 <v-container class="mt-5">
   <h3>メインミッション</h3>
-  <v-card class="mb-5">
+  <v-card class="mb-5" to="/mainMission/">
     <v-layout>
     <v-flex xs5>
       <v-img src="https://images.unsplash.com/photo-1560013764-b45ee3b3d786?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
@@ -26,7 +26,7 @@
   </v-card>
 
   <h3>サブストーリー</h3>
-  <v-card class="mb-5">
+  <v-card class="mb-5"  to="/subMission/">
     <v-layout>
     <v-flex xs5>
       <v-img src="https://images.unsplash.com/photo-1549315311-697952be6cce?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
