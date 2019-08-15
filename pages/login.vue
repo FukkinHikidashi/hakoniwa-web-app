@@ -9,7 +9,7 @@
                 </h1>
                 <v-text-field
                 v-model="email"
-            label="メールアドレス"
+            label="チームID"
             box
             background-color="black"
             dark
@@ -22,7 +22,7 @@
             background-color="black"
             dark
             color="white" />
-            <v-btn color="primary" depressed>ログイン</v-btn>
+            <v-btn color="primary" depressed @click="login">ログイン</v-btn>
             </v-flex>
 
         </v-layout>
@@ -36,9 +36,17 @@ export default {
     layout:"login",
     data(){
         return {
-            loginImage: require("@/static/login.jpg")
+            loginImage: require("@/static/login.jpg"),
+            email: "",
+            pw: ""
+        }
+    },
+    methods: {
+        login(){
+            this.$router.push("/")
         }
     }
+
 }
 </script>
 
