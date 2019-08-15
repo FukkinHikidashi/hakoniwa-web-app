@@ -22,7 +22,7 @@
             background-color="black"
             dark
             color="white" />
-            <v-btn color="primary" depressed @click="login">ログイン</v-btn>
+            <v-btn color="primary" depressed @click="login" :loading="loading">ログイン</v-btn>
             </v-flex>
 
         </v-layout>
@@ -38,17 +38,19 @@ export default {
         return {
             loginImage: require("@/static/login.jpg"),
             email: "",
-            pw: ""
+            pw: "",
+            loading: false,
+            errText: null
         }
     },
     methods: {
           login(){
         //console.log(this.email,this.password)
-        if(!this.email || !this.password) return;
+        if(!this.email || !this.pw) return;
 
         this.loading=true;
         this.$auth
-          .signInWithEmailAndPassword(this.email,this.password)
+          .signInWithEmailAndPassword(this.email,this.pw)
           .then(response=>{
             this.$router.push()
           })
