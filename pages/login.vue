@@ -22,7 +22,7 @@
             background-color="black"
             dark
             color="white" />
-            <v-btn color="primary" depressed @click="login">ログイン</v-btn>
+            <v-btn color="primary" depressed @click="login" :loading="loading">ログイン</v-btn>
             </v-flex>
 
         </v-layout>
@@ -38,7 +38,9 @@ export default {
         return {
             loginImage: require("@/static/login.jpg"),
             email: "",
-            pw: ""
+            pw: "",
+            loading: false,
+            errText: null
         }
     },
     methods: {
