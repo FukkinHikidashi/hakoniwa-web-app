@@ -1,7 +1,7 @@
 <template>
     <v-container class="layout align-center">
         <v-layout row wrap class="pa-3">
-            <v-img :src="loginImstakeforbreakfastage"/>
+            <v-img :src="loginImage"/>
 
             <v-flex xs12 class="mt-5"><!-- mtでmargin-topの幅を決められる-->
                 <h1 color="info">
@@ -10,15 +10,13 @@
                 <v-text-field
                 v-model="email"
             label="チームID"
-            box
             background-color="black"
             dark
             color="white" />
 
             <v-text-field
                 v-model="pw"
-            label="Pasword"
-            box
+            label="Password"
             background-color="black"
             dark
             color="white" />
@@ -45,14 +43,14 @@ export default {
     },
     methods: {
           login(){
-        //console.log(this.email,this.password)
+        console.log(this.email,this.password)
         if(!this.email || !this.pw) return;
 
         this.loading=true;
         this.$auth
           .signInWithEmailAndPassword(this.email,this.pw)
           .then(response=>{
-            this.$router.push()
+            this.$router.push("/")
           })
           .catch(err=>{
             console.log(err)
