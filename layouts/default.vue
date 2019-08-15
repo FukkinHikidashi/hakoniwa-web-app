@@ -47,7 +47,6 @@
       value="home"
       to="/"
       color="amber accent-1"
-
     >
       <span>Home</span>
       <v-icon>mdi-home</v-icon>

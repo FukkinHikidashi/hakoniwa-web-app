@@ -7,7 +7,7 @@
 
         <v-tabs
         v-model="tab"
-        background-color="yellow lighten-4"
+        background-color="light-blue lighten-5"
         hide-slider
         >
         <v-layout justify-space-around>
@@ -24,7 +24,7 @@ v-model="tab">
 
 <v-tab-item>
   <!--ビンゴカード　上ほどステージが進む -->
-  <v-card color="yellow" flat>
+  <v-card color="light-blue lighten-4" flat>
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
@@ -55,6 +55,7 @@ v-model="tab">
 </v-tab-item>
 
 <v-tab-item>
+    <v-card color="light-blue lighten-4" flat>
     <v-container v-if="nowStage >= 2">
       <v-layout justify-center wrap width="100vw">
       <v-card width="30vw" height="30vw" tile>1</v-card>
@@ -73,10 +74,12 @@ v-model="tab">
   <v-container v-else>
     まだだよ
   </v-container>
+      </v-card>
+
 </v-tab-item>
 
 <v-tab-item>
-
+  <v-card color="light-blue lighten-4" flat>
   <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
       <v-card width="40vw" height="40vw" tile>1</v-card>
@@ -89,19 +92,24 @@ v-model="tab">
   <v-container v-else>
     まだだよ
   </v-container>
+      </v-card>
+
 </v-tab-item>
 
 
 <v-tab-item>
-
+  <v-card color="light-blue lighten-4" flat>
   <v-container v-if="nowStage === 4">
       <v-layout justify-center wrap width="100vw">
       <v-card width="50vw" height="50vw" tile>1</v-card>
 
-      </v-layout>  </v-container>
+      </v-layout>
+      </v-container>
   <v-container v-else>
     まだだよ
   </v-container>
+    </v-card>
+
 </v-tab-item>
 
 </v-tabs-items>
@@ -138,7 +146,7 @@ v-model="tab">
     data() {
       return{
         dialog: false,
-        nowStage: 4,
+        nowStage: 2,
         tab: null,
         missionDatas: [
           {
