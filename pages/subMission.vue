@@ -81,6 +81,7 @@
 <script>
   export default {
     data: () => ({
+      disabled: true,
       panel: [0, 1, 2, 3],
 //      mission:{
 //       quiz1:{
