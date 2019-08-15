@@ -138,7 +138,7 @@ v-model="tab">
     data() {
       return{
         dialog: false,
-        nowStage: 2,
+        nowStage: 4,
         tab: null,
         missionDatas: [
           {
