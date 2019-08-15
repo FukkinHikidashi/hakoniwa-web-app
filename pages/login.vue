@@ -35,8 +35,8 @@ export default {
     data(){
         return {
             loginImage: require("@/static/login.jpg"),
-            email: null,
-            password: null,
+            email: "",
+            pw: "",
             loading: false,
             errText: null
         }
