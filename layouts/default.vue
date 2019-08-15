@@ -1,15 +1,15 @@
 <template>
 <v-app>
 <v-card>
-    <v-toolbar>
+    <v-toolbar color="light-blue lighten-1">
         <v-btn
         fab
         dark
-        color="primary"
+        color="blue-grey lighten-3"
         >
         TEAM<br>A
         </v-btn>
-      <v-toolbar-title style="margin-left: 5vw"><h2>Aチーム</h2></v-toolbar-title>
+      <v-toolbar-title style="margin-left: 5vw"><h2 style="color: white">Aチーム</h2></v-toolbar-title>
 
       <v-spacer></v-spacer>
         <v-btn
@@ -41,12 +41,12 @@
   <v-bottom-navigation
     v-model="bottomNav"
     fixed
-    color="green darken-4"
+    color="amber darken-3"
   >
     <v-btn
       value="home"
       to="/"
-      color="green accent-2"
+      color="amber accent-1"
 
     >
       <span>Home</span>
@@ -56,7 +56,7 @@
     <v-btn
       value="MainMission"
       to="/mainMission"
-      color="green accent-2"
+      color="amber accent-1"
     >
       <span>MainMission</span>
       <v-icon>mdi-heart</v-icon>
@@ -65,7 +65,7 @@
     <v-btn
       value="SubMission"
       to="/subMission"
-      color="green accent-2"
+      color="amber accent-1"
 
     >
       <span>SubMission</span>
@@ -75,7 +75,7 @@
     <v-btn
       value="Library"
       to="/library"
-      color="green accent-2"
+      color="amber accent-1"
 
     >
       <span>Library</span>
