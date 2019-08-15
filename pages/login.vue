@@ -9,17 +9,17 @@
                 </h1>
                 <v-text-field
                 v-model="email"
-            label="チームID"
-            background-color="black"
-            dark
-            color="white" />
+                label="チームID"
+                background-color="black"
+                dark
+                color="white" />
 
             <v-text-field
                 v-model="pw"
-            label="Password"
-            background-color="black"
-            dark
-            color="white" />
+                label="Password"
+                background-color="black"
+                dark
+                color="white" />
             <v-btn color="primary" depressed @click="login" :loading="loading">ログイン</v-btn>
             </v-flex>
 
@@ -35,15 +35,15 @@ export default {
     data(){
         return {
             loginImage: require("@/static/login.jpg"),
-            email: "",
-            pw: "",
+            email: null,
+            password: null,
             loading: false,
             errText: null
         }
     },
     methods: {
           login(){
-        console.log(this.email,this.password)
+        //console.log(this.email,this.password)
         if(!this.email || !this.pw) return;
 
         this.loading=true;
