@@ -16,7 +16,7 @@
             color="white" />
 
             <v-text-field
-                v-model="pw"
+                v-model="password"
             label="Pasword"
             box
             background-color="black"
@@ -37,20 +37,20 @@ export default {
     data(){
         return {
             loginImage: require("@/static/login.jpg"),
-            email: "",
-            pw: "",
+            email: null,
+            password: null,
             loading: false,
             errText: null
         }
     },
     methods: {
           login(){
-        //console.log(this.email,this.password)
-        if(!this.email || !this.pw) return;
+        console.log(this.email,this.password)
+        if(!this.email || !this.password) return;
 
         this.loading=true;
         this.$auth
-          .signInWithEmailAndPassword(this.email,this.pw)
+          .signInWithEmailAndPassword(this.email,this.password)
           .then(response=>{
             this.$router.push()
           })

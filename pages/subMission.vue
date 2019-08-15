@@ -20,7 +20,7 @@
 
     <v-expansion-panels
       v-model="panel"
-      :disabled="disabled"
+
       multiple
       style="margin-top:5px"
     >
