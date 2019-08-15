@@ -10,6 +10,10 @@
       </div>
     </div>
 
+    <v-btn fab color="accondary" @click="createTaxi(20)">
+      <v-icon>mdi-taxi</v-icon>
+    </v-btn>
+
     <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center">
         <h3>ミッション</h3>
     </div>
@@ -90,5 +94,29 @@
 //        },
 //      },
     }),
+    methods:{
+      createTaxi(){
+        const lat = 100;
+        const lng = 200;
+
+
+        this.$firestore.collection('taxis').add({
+          d:{
+            carPhotoUrl:"",
+            carType:"",
+            driver:{
+              name:"吉岡里帆",
+              faceUrl:"",
+              phone:"",
+              rate:4.8,
+              description:"" + Math.random
+            },
+            number:"AAA",
+            location:{lat:lat,lng:lng}
+          },
+
+        })
+      },
+    }
   }
 </script>
