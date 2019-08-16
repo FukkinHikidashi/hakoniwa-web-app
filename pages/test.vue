@@ -15,7 +15,7 @@ export default {
         createTeamData(){
             this.$firestore.collection("Team").doc("teamXX").get()
             .then(doc => {
-                this.$firestore.collection("Team").doc("wPenfOmOi4Y8ibxERyqzLU63TTe2").set(doc.data())
+                this.$firestore.collection("Team").doc("ここに追加先にチームのdocを入力").set(doc.data())
             })
         }
 
