@@ -11,10 +11,10 @@
         hide-slider
         >
         <v-layout justify-space-around>
-            <v-tab @click="tabConsole()">1階</v-tab>
-            <v-tab @click="tabConsole()">2階</v-tab>
-            <v-tab @click="tabConsole()">3階</v-tab>
-            <v-tab @click="tabConsole()">4階</v-tab>
+            <v-tab @click="tabClick()">1階</v-tab>
+            <v-tab @click="tabClick()">2階</v-tab>
+            <v-tab @click="tabClick()">3階</v-tab>
+            <v-tab @click="tabClick()">4階</v-tab>
         </v-layout>
         </v-tabs>
 
@@ -31,7 +31,7 @@ v-model="tab">
       <div v-for="data in stage1" :key="data.id">
       <v-card width="22vw" height="22vw" tile
       :color="cardColor[data.clear]"
-      @click="displayMssionChange(data.text)"
+      @click="displayMssionChange(data)"
       >{{ cardText[data.clear] }}</v-card>
 
       </div>
@@ -48,7 +48,7 @@ v-model="tab">
       <div v-for="data in stage2" :key="data.id">
       <v-card width="30vw" height="30vw" tile
       :color="cardColor[data.clear]"
-      @click="displayMssionChange(data.text)"
+      @click="displayMssionChange(data)"
       >{{ cardText[data.clear] }}</v-card>
 
       </div>
@@ -68,7 +68,7 @@ v-model="tab">
       <div v-for="data in stage3" :key="data.id">
       <v-card width="40vw" height="40vw" tile
       :color="cardColor[data.clear]"
-      @click="displayMssionChange(data.text)"
+      @click="displayMssionChange(data)"
       >{{ cardText[data.clear] }}</v-card>
 
       </div>
@@ -89,7 +89,7 @@ v-model="tab">
       <div v-for="data in stage4" :key="data.id">
       <v-card width="40vw" height="40vw" tile
       :color="cardColor[data.clear]"
-      @click="displayMssionChange(data.text)"
+      @click="displayMssionChange(data)"
       >{{ cardText[data.clear] }}</v-card>
 
       </div>
@@ -108,22 +108,25 @@ v-model="tab">
       <p>{{nowDisplayText}}</p>
     </v-card>
 
-  <v-dialog v-model="dialog">
-    <v-card>
-    ここに回答ボタンを設置
-    </v-card>
-    </v-dialog>
-  
+    <div v-show="bottonShow">
     <v-card color="green" class="ma-2 align-center justify-center pa-1">
-      <p>報告方法：画像をアップロードしてください</p>
+      <p>報告方法：{{ answerTypeExplain }}</p>
 
     </v-card>
   <v-layout style="margin: 10px">
     <v-spacer />
-  <v-btn color="green">
-    報告
+  <div v-if="answerTypeExplain　=== '写真をアップロード'">
+    <v-btn color="green" large>
+    アップロード
+    </v-btn>
+  </div>
+  <div v-if="answerTypeExplain　=== 'テキストを入力'">
+  <v-btn color="green" large>
+    入力
   </v-btn>
+  </div>
   </v-layout>
+    </div>
 
 
   
@@ -196,8 +199,9 @@ v-model="tab">
         dialog: false,
         nowStage: null,
         tab: null,
-        displayMission: 1,
-        nowDisplayText: "aaa",
+        nowDisplayText: "ビンゴのマスをタップしてください！",
+        answerTypeExplain:"",
+        bottonShow: true,
         cardText: ["未回答","承認待ち","クリア"],
         cardColor:["white","amber lighten-4","amber accent-3"],
         missionDatas: [],
@@ -211,14 +215,35 @@ v-model="tab">
     },
     computed:{
       //nowStageの数字がtabの数字より小さいとき、報告方法と報告ボタンを出さない
+
     },
     methods: {
       displayMssionChange(x){
-        this.nowDisplayText = x
+        this.nowDisplayText = x.text
+
+        if(x.answerType === "photo" ){
+          this.answerTypeExplain = "写真をアップロード"
+        }
+
+        if(x.answerType === "text"){
+          this.answerTypeExplain = "テキストを入力"
+        }
+
       },
 
-      async tabConsole(){
+      async tabClick(){
         await console.log(this.tab)
+        await console.log(this.tab)
+        
+        if(this.nowStage - 1 > this.tab){
+          this.bottonShow = false
+        }else{
+          this.bottonShow = true
+        }
+
+
+        
+
       }
     }
     }
