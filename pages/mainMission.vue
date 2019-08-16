@@ -1,7 +1,7 @@
 <template>
 <div>
 <v-card class="mt-3 mb-3 justify-center" width="40%" tile flat>
-  <h3>合計得点：100pt</h3>
+  <h3>合計得点：{{ score }}pt</h3>
 </v-card>
 
 
@@ -11,10 +11,10 @@
         hide-slider
         >
         <v-layout justify-space-around>
-            <v-tab>1階</v-tab>
-            <v-tab>2階</v-tab>
-            <v-tab>3階</v-tab>
-            <v-tab>4階</v-tab>
+            <v-tab @click="tabClick()">1階</v-tab>
+            <v-tab @click="tabClick()">2階</v-tab>
+            <v-tab @click="tabClick()">3階</v-tab>
+            <v-tab @click="tabClick()">4階</v-tab>
         </v-layout>
         </v-tabs>
 
@@ -28,26 +28,13 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="22vw" height="22vw" tile>1</v-card>
-      <v-card width="22vw" height="22vw" tile>2</v-card>
-      <v-card width="22vw" height="22vw" tile>3</v-card>
-      <v-card width="22vw" height="22vw" tile>4</v-card>
-      
-      <v-card width="22vw" height="22vw" tile>5</v-card>
-      <v-card width="22vw" height="22vw" tile>6</v-card>
-      <v-card width="22vw" height="22vw" tile>7</v-card>
-      <v-card width="22vw" height="22vw" tile>8</v-card>
+      <div v-for="data in stage1" :key="data.id">
+      <v-card width="22vw" height="22vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data)"
+      >{{ cardText[data.clear] }}</v-card>
 
-      <v-card width="22vw" height="22vw" tile>9</v-card>
-      <v-card width="22vw" height="22vw" tile>10</v-card>
-      <v-card width="22vw" height="22vw" tile>11</v-card>
-      <v-card width="22vw" height="22vw" tile>12</v-card>
-
-      <v-card width="22vw" height="22vw" tile>13</v-card>
-      <v-card width="22vw" height="22vw" tile>14</v-card>
-      <v-card width="22vw" height="22vw" tile>15</v-card>
-      <v-card width="22vw" height="22vw" tile>16</v-card>
-      
+      </div>
       </v-layout> 
   </v-container>
   </v-card>
@@ -58,55 +45,37 @@ v-model="tab">
     <v-card color="light-blue lighten-4" flat>
     <v-container v-if="nowStage >= 2">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="30vw" height="30vw" tile>1</v-card>
-      <v-card width="30vw" height="30vw" tile>2</v-card>
-      
-      <v-card width="30vw" height="30vw" tile>3</v-card>
-      <v-card width="30vw" height="30vw" tile>4</v-card>
-      <v-card width="30vw" height="30vw" tile>5</v-card>
-      <v-card width="30vw" height="30vw" tile>6</v-card>
-      
-      <v-card width="30vw" height="30vw" tile>7</v-card>
-      <v-card width="30vw" height="30vw" tile>8</v-card>
-      <v-card width="30vw" height="30vw" tile>9</v-card>
+      <div v-for="data in stage2" :key="data.id">
+      <v-card width="30vw" height="30vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data)"
+      >{{ cardText[data.clear] }}</v-card>
+
+      </div>
       </v-layout>
   </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
       </v-card>
 
 </v-tab-item>
 
 <v-tab-item>
-  <v-card color="light-blue lighten-4" flat>
-  <v-container v-if="nowStage >= 3">
+    <v-card color="light-blue lighten-4" flat>
+    <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
-      <v-card
-      width="40vw" height="40vw"
-      tile
-      @click="displayMssionChange(1)"
-      :color="missionDatas[0].status"
-      >1
-        <p v-if="missionDatas[0].status=='yellow'">クリア</p>
-        <p v-if="missionDatas[0].status=='grey'">承認待ち</p>
-      </v-card>
-      <v-card
-      width="40vw" height="40vw"
-      tile
-      @click="displayMssionChange(2)"
-      :color="missionDatas[1].status"
-      >2
-        <p v-if="missionDatas[1].status=='yellow'">クリア</p>
-        <p v-if="missionDatas[1].status=='grey'">承認待ち</p>
-      </v-card>
-      
-      <v-card width="40vw" height="40vw" tile>3</v-card>
-      <v-card width="40vw" height="40vw" tile>4</v-card>
+      <div v-for="data in stage3" :key="data.id">
+      <v-card width="40vw" height="40vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data)"
+      >{{ cardText[data.clear] }}</v-card>
+
+      </div>
       </v-layout>
   </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
       </v-card>
 
@@ -117,12 +86,17 @@ v-model="tab">
   <v-card color="light-blue lighten-4" flat>
   <v-container v-if="nowStage === 4">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="50vw" height="50vw" tile>1</v-card>
+      <div v-for="data in stage4" :key="data.id">
+      <v-card width="40vw" height="40vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data)"
+      >{{ cardText[data.clear] }}</v-card>
 
+      </div>
       </v-layout>
       </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
     </v-card>
 
@@ -134,22 +108,25 @@ v-model="tab">
       <p>{{nowDisplayText}}</p>
     </v-card>
 
-  <v-dialog v-model="dialog">
-    <v-card>
-    ここに回答ボタンを設置
-    </v-card>
-    </v-dialog>
-  
+    <div v-show="bottonShow">
     <v-card color="green" class="ma-2 align-center justify-center pa-1">
-      <p>報告方法：画像をアップロードしてください</p>
+      <p>報告方法：{{ answerTypeExplain }}</p>
 
     </v-card>
   <v-layout style="margin: 10px">
     <v-spacer />
-  <v-btn color="green">
-    報告
+  <div v-if="answerTypeExplain　=== '写真をアップロード'">
+    <v-btn color="green" large>
+    アップロード
+    </v-btn>
+  </div>
+  <div v-if="answerTypeExplain　=== 'テキストを入力'">
+  <v-btn color="green" large>
+    入力
   </v-btn>
+  </div>
   </v-layout>
+    </div>
 
 
   
@@ -158,154 +135,117 @@ v-model="tab">
 
 <script>
   export default{
+    async beforeCreate(){
+      await this.$firestore.collection("Mission").get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          this.missionDatas.push(doc.data())
+
+        })
+        console.log(this.missionDatasmissionDatas)
+      })
+      const uid = await this.$auth.currentUser.uid
+      await console.log({uid})
+      await this.$firestore.doc(`Team/${uid}`)
+        .get()
+        .then(doc=>{
+          this.team = doc.data().team
+          this.nowStage = doc.data().nowStage*1
+          this.score = doc.data().point.totalPoint
+          this.stage1Missions = doc.data().mainMission.stage1
+          this.stage2Missions = doc.data().mainMission.stage2
+          this.stage3Missions = doc.data().mainMission.stage3
+          this.stage4Missions = doc.data().mainMission.stage4
+      })
+
+      const stage1 = await this.stage1Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage1 =  await stage1
+      await console.log({stage1})
+
+      const stage2 = await this.stage2Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage2 =  await stage2
+      await console.log({stage2})
+
+      const stage3 = await this.stage3Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage3 =  await stage3
+      await console.log({stage3})
+
+      const stage4 = await this.stage4Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        console.log({mission})
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage4 =  await stage4
+      await console.log({stage4})
+      
+
+
+    },
     data() {
       return{
+        team: "",
         dialog: false,
-        nowStage: 3,
+        nowStage: null,
         tab: null,
-        displayMission: 1,
-        nowDisplayText: "aaa",
-        missionDatas: [
-          {
-            id: 1,
-            title: "mission1",
-            text: "犬の写真をとる！",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1, // num
-            status: "grey"
-          },{
-            id: 2,
-            title: "mission2",
-            text: "千成ひょうたんの写真をとる！",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1, // num
-            status: "yellow"
-          },{
-            id: 3,
-            title: "mission3",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1, // num
-            status: ""
-          },{
-            id: 4,
-            title: "mission4",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 5,
-            title: "mission5",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 6,
-            title: "mission6",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 7,
-            title: "mission7",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 8,
-            title: "mission8",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 9,
-            title: "mission9",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 10,
-            title: "mission10",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 11,
-            title: "mission11",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 12,
-            title: "mission12",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 13,
-            title: "mission13",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 14,
-            title: "mission14",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 15,
-            title: "mission15",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          },{
-            id: 16,
-            title: "mission16",
-            text: "ここに問題文",
-            photoUrl: "https://app-senbonknock.com/wp-content/uploads/2019/05/icon.png",
-            answerType: "text", // ["text", "photo"]
-            missionType: "eachPoint", // ["eachPoint", "everywhere", "quiz"]
-            difficulty: 1 // num
-          }
-        ]
+        score: null,
+        nowDisplayText: "ビンゴのマスをタップしてください！",
+        answerTypeExplain:"",
+        bottonShow: true,
+        cardText: ["未回答","承認待ち","クリア"],
+        cardColor:["white","amber lighten-4","amber accent-3"],
+        missionDatas: [],
+        stage1:[],
+        stage2:[],
+        stage3:[],
+        stage4:[]
+
 
       }
     },
+    computed:{
+      //nowStageの数字がtabの数字より小さいとき、報告方法と報告ボタンを出さない
+
+    },
     methods: {
       displayMssionChange(x){
-        this.nowDisplayText = this.missionDatas[x - 1].text
-        console.log(this.nowDisplayText)
+        this.nowDisplayText = x.text
+
+        if(x.answerType === "photo" ){
+          this.answerTypeExplain = "写真をアップロード"
+        }
+
+        if(x.answerType === "text"){
+          this.answerTypeExplain = "テキストを入力"
+        }
+
+      },
+
+      async tabClick(){
+        await console.log(this.tab)
+        await console.log(this.tab)
+        
+        if(this.nowStage - 1 > this.tab){
+          this.bottonShow = false
+        }else{
+          this.bottonShow = true
+        }
+
+
+        
+
       }
     }
     }
