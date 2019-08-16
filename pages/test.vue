@@ -5,6 +5,7 @@
 
 <script>
 export default {
+    layout: 'login',
     data(){
         return{
             teamData: {}
@@ -13,9 +14,9 @@ export default {
     },
     methods:{
         createTeamData(){
-            this.$firestore.collection("Team").doc("teamXX").get()
+            this.$firestore.collection("Team").doc("backup").get()
             .then(doc => {
-                this.$firestore.collection("Team").doc("ここに追加先にチームのdocを入力").set(doc.data())
+                this.$firestore.collection("Team").doc("xxxxxxxxxxxxxx").set(doc.data())
             })
         }
 

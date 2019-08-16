@@ -9,7 +9,7 @@
         >
         TEAM<br>{{team}}
         </v-btn>
-      <v-toolbar-title style="margin-left: 5vw"><h2 style="color: white">{{team}}チーム</h2></v-toolbar-title>
+      <v-toolbar-title style="margin-left: 5vw"><h2 style="color: white">{{team + "チーム"}}</h2></v-toolbar-title>
 
       <v-spacer></v-spacer>
         <v-btn

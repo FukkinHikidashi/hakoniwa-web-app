@@ -127,6 +127,19 @@ v-model="tab">
   </div>
   </v-layout>
     </div>
+  
+  <v-dialog v-model="dialog">
+    <v-card>
+      <v-container>
+      <v-layout column wrap justify-center align-center>
+      <h2>ビンゴ！</h2>
+      <v-btn color="primary"
+      center
+      @click="toNext()">次の階へ進む！</v-btn>
+      </v-layout>
+      </v-container>
+    </v-card>
+  </v-dialog>
 
 
   
@@ -134,7 +147,21 @@ v-model="tab">
 </template>
 
 <script>
-import { async } from 'q';
+function bingoCheck(reveal){
+
+const rowBingo = reveal.map(row=>row.every(n=>n));
+
+const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+const columnBingo = transpose(reveal).map(row=>row.every(n=>n));
+/*
+const revealX = [reveal.map((row,i)=>row[i]),reveal.map((row,i,R)=>row[R.length-i-1])]
+const xBingo = revealX.map(row=>row.every(n=>n))
+*/
+
+console.log(rowBingo,columnBingo/*,xBingo*/)
+return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
+
+}
   export default{
     async beforeCreate(){
       await this.$firestore.collection("Mission").get()
@@ -190,8 +217,63 @@ import { async } from 'q';
       this.stage4 =  await stage4
       await console.log({stage4})
       
+      
+      if(await this.nowStage === 1){
+        const clearCheckAry = await stage1.map(mission => {
+          return (mission.clear === 2)
+        })
+        await console.log(clearCheckAry)
 
+        this.reveal = await [
+          clearCheckAry.slice(0,4),
+          clearCheckAry.slice(4,8),
+          clearCheckAry.slice(8,12),
+          clearCheckAry.slice(12,16)
+        ]
+        await console.log(this.reveal)
+        this.cleared = await bingoCheck(this.reveal)
+      }
+      if(await this.nowStage === 2){
+          const clearCheckAry = await stage2.map(mission => {
+          return (mission.clear === 2)
+        })
+        await console.log(clearCheckAry)
+        this.reveal = await [
+          clearCheckAry.slice(0,3),
+          clearCheckAry.slice(3,6),
+          clearCheckAry.slice(6,9)
+          ]
+        this.cleared = await bingoCheck(this.reveal)
+      }
+      if(await this.nowStage === 3){
+          const clearCheckAry = await stage3.map(mission => {
+          return (mission.clear === 2)
+        })
+        await console.log(clearCheckAry)
+        this.reveal = await [
+          clearCheckAry.slice(0,2),
+          clearCheckAry.slice(2,4)
+          ]
+        this.cleared = await bingoCheck(this.reveal)
+      }
+      if(await this.nowStage === 4){
+          const clearCheckAry = await stage4.map(mission => {
+          return (mission.clear === 2)
+        })
+        await console.log(clearCheckAry)
+        this.reveal = await clearCheckAry
+        this.cleared = await clearCheckAry[0]
+      }
+      
+      await console.log({cleared:this.cleared})
 
+      if(await this.cleared === true){
+        this.dialog =  await true
+        await this.$firestore.doc(`Team/${uid}`).update({nowStage: this.nowStage + 1})
+      }
+
+      this.tab = await this.nowStage - 1
+      
     },
     data() {
       return{
@@ -202,25 +284,26 @@ import { async } from 'q';
         score: null,
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
-        bottonShow: false,
+        bottonShow: true,
         cardText: ["未回答","承認待ち","クリア"],
         cardColor:["white","amber lighten-4","amber accent-3"],
         missionDatas: [],
         stage1:[],
         stage2:[],
         stage3:[],
-        stage4:[]
+        stage4:[],
+        reveal:[],
+        cleared: false
 
 
       }
     },
     computed:{
-      //nowStageの数字がtabの数字より小さいとき、報告方法と報告ボタンを出さない
 
     },
     methods: {
       displayMssionChange(x){
-        this.nowDisplayText = x.id
+        this.nowDisplayText = x.text
 
         if(x.answerType === "photo" ){
           this.answerTypeExplain = "写真をアップロード"
@@ -229,7 +312,12 @@ import { async } from 'q';
         if(x.answerType === "text"){
           this.answerTypeExplain = "テキストを入力"
         }
-
+      
+      },
+      async toNext(){
+        this.nowStage = await this.nowStage  + 1
+        this.dialog = await false
+        this.tab = await this.nowStage  - 1
       },
 
       async tabClick(){
