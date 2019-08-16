@@ -110,16 +110,16 @@
     methods: {
       createMission(){ //ミッション登録用に便利なので一応おいておく
         const datas = {
-          id: "a016",
-          title: "自販機",
-          text: "自販機が4台写った写真を撮る",
-          missionType: "challenge",
+          id: "a030",
+          title: "30",
+          text: "30のミッション",
+          missionType: "point",
           answerType: "photo",
           photoUrl: "",
           difficulty: 1
         }
 
-        this.$firestore.collection("Mission").doc("mission16").set(datas)
+        this.$firestore.collection("Mission").doc("mission30").set(datas)
       console.table(datas)
       }
     }

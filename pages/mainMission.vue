@@ -28,11 +28,11 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <div v-for="data in stage1" :key="data.id">
+      <div v-for="el in stage1" :key="el.id">
       <v-card width="22vw" height="22vw" tile
-      :color="cardColor[data.clear]"
-      @click="displayMssionChange(data)"
-      >{{ cardText[data.clear] }}</v-card>
+      :color="cardColor[el.clear]"
+      @click="displayMssionChange(el)"
+      >{{ cardText[el.clear] }}</v-card>
 
       </div>
       </v-layout> 
@@ -134,6 +134,7 @@ v-model="tab">
 </template>
 
 <script>
+import { async } from 'q';
   export default{
     async beforeCreate(){
       await this.$firestore.collection("Mission").get()
@@ -142,9 +143,8 @@ v-model="tab">
           this.missionDatas.push(doc.data())
 
         })
-        console.log(this.missionDatasmissionDatas)
       })
-      
+
       const uid = this.$auth.currentUser.uid
       await this.$firestore.doc(`Team/${uid}`)
         .get()
@@ -158,35 +158,34 @@ v-model="tab">
           this.stage4Missions = doc.data().mainMission.stage4
       })
 
-      const stage1 = await this.stage1Missions.map(missionData => {
-        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
-        mission.clear = missionData.clear
-        return mission
+      const stage1 = await this.stage1Missions.map(missionData1 => {
+        const mission1 = this.missionDatas.filter(e1 => e1.id == missionData1.id)[0]
+        mission1.clear = missionData1.clear
+        return mission1
       })
       this.stage1 =  await stage1
       await console.log({stage1})
 
-      const stage2 = await this.stage2Missions.map(missionData => {
-        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
-        mission.clear = missionData.clear
-        return mission
+      const stage2 = await this.stage2Missions.map(missionData2 => {
+        const mission2 = this.missionDatas.filter(e2 => e2.id == missionData2.id)[0]
+        mission2.clear = missionData2.clear
+        return mission2
       })
       this.stage2 =  await stage2
       await console.log({stage2})
 
-      const stage3 = await this.stage3Missions.map(missionData => {
-        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
-        mission.clear = missionData.clear
-        return mission
+      const stage3 = await this.stage3Missions.map(missionData3 => {
+        const mission3 = this.missionDatas.filter(e3 => e3.id == missionData3.id)[0]
+        mission3.clear = missionData3.clear
+        return mission3
       })
       this.stage3 =  await stage3
       await console.log({stage3})
 
-      const stage4 = await this.stage4Missions.map(missionData => {
-        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
-        console.log({mission})
-        mission.clear = missionData.clear
-        return mission
+      const stage4 = await this.stage4Missions.map(missionData4 => {
+        const mission4 = this.missionDatas.filter(e4 => e4.id == missionData4.id)[0]
+        mission4.clear = missionData4.clear
+        return mission4
       })
       this.stage4 =  await stage4
       await console.log({stage4})
@@ -221,7 +220,7 @@ v-model="tab">
     },
     methods: {
       displayMssionChange(x){
-        this.nowDisplayText = x.text
+        this.nowDisplayText = x.id
 
         if(x.answerType === "photo" ){
           this.answerTypeExplain = "写真をアップロード"
