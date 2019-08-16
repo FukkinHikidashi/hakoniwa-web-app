@@ -11,10 +11,10 @@
         hide-slider
         >
         <v-layout justify-space-around>
-            <v-tab>1階</v-tab>
-            <v-tab>2階</v-tab>
-            <v-tab>3階</v-tab>
-            <v-tab>4階</v-tab>
+            <v-tab @click="tabConsole()">1階</v-tab>
+            <v-tab @click="tabConsole()">2階</v-tab>
+            <v-tab @click="tabConsole()">3階</v-tab>
+            <v-tab @click="tabConsole()">4階</v-tab>
         </v-layout>
         </v-tabs>
 
@@ -28,26 +28,13 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="22vw" height="22vw" tile>1</v-card>
-      <v-card width="22vw" height="22vw" tile>2</v-card>
-      <v-card width="22vw" height="22vw" tile>3</v-card>
-      <v-card width="22vw" height="22vw" tile>4</v-card>
-      
-      <v-card width="22vw" height="22vw" tile>5</v-card>
-      <v-card width="22vw" height="22vw" tile>6</v-card>
-      <v-card width="22vw" height="22vw" tile>7</v-card>
-      <v-card width="22vw" height="22vw" tile>8</v-card>
+      <div v-for="data in stage1" :key="data.id">
+      <v-card width="22vw" height="22vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data.text)"
+      >{{ cardText[data.clear] }}</v-card>
 
-      <v-card width="22vw" height="22vw" tile>9</v-card>
-      <v-card width="22vw" height="22vw" tile>10</v-card>
-      <v-card width="22vw" height="22vw" tile>11</v-card>
-      <v-card width="22vw" height="22vw" tile>12</v-card>
-
-      <v-card width="22vw" height="22vw" tile>13</v-card>
-      <v-card width="22vw" height="22vw" tile>14</v-card>
-      <v-card width="22vw" height="22vw" tile>15</v-card>
-      <v-card width="22vw" height="22vw" tile>16</v-card>
-      
+      </div>
       </v-layout> 
   </v-container>
   </v-card>
@@ -58,57 +45,39 @@ v-model="tab">
     <v-card color="light-blue lighten-4" flat>
     <v-container v-if="nowStage >= 2">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="30vw" height="30vw" tile>1</v-card>
-      <v-card width="30vw" height="30vw" tile>2</v-card>
-      
-      <v-card width="30vw" height="30vw" tile>3</v-card>
-      <v-card width="30vw" height="30vw" tile>4</v-card>
-      <v-card width="30vw" height="30vw" tile>5</v-card>
-      <v-card width="30vw" height="30vw" tile>6</v-card>
-      
-      <v-card width="30vw" height="30vw" tile>7</v-card>
-      <v-card width="30vw" height="30vw" tile>8</v-card>
-      <v-card width="30vw" height="30vw" tile>9</v-card>
+      <div v-for="data in stage2" :key="data.id">
+      <v-card width="30vw" height="30vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data.text)"
+      >{{ cardText[data.clear] }}</v-card>
+
+      </div>
       </v-layout>
   </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
       </v-card>
 
 </v-tab-item>
 
 <v-tab-item>
-<!--  <v-card color="light-blue lighten-4" flat>
-  <v-container v-if="nowStage >= 3">
+    <v-card color="light-blue lighten-4" flat>
+    <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
-      <v-card
-      width="40vw" height="40vw"
-      tile
-      @click="displayMssionChange(1)"
-      :color="missionDatas[0].status"
-      >1
-        <p v-if="missionDatas[0].status=='yellow'">クリア</p>
-        <p v-if="missionDatas[0].status=='grey'">承認待ち</p>
-      </v-card>
-      <v-card
-      width="40vw" height="40vw"
-      tile
-      @click="displayMssionChange(2)"
-      :color="missionDatas[1].status"
-      >2
-        <p v-if="missionDatas[1].status=='yellow'">クリア</p>
-        <p v-if="missionDatas[1].status=='grey'">承認待ち</p>
-      </v-card>
-      
-      <v-card width="40vw" height="40vw" tile>3</v-card>
-      <v-card width="40vw" height="40vw" tile>4</v-card>
+      <div v-for="data in stage3" :key="data.id">
+      <v-card width="40vw" height="40vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data.text)"
+      >{{ cardText[data.clear] }}</v-card>
+
+      </div>
       </v-layout>
   </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
-      </v-card>-->
+      </v-card>
 
 </v-tab-item>
 
@@ -117,12 +86,17 @@ v-model="tab">
   <v-card color="light-blue lighten-4" flat>
   <v-container v-if="nowStage === 4">
       <v-layout justify-center wrap width="100vw">
-      <v-card width="50vw" height="50vw" tile>1</v-card>
+      <div v-for="data in stage4" :key="data.id">
+      <v-card width="40vw" height="40vw" tile
+      :color="cardColor[data.clear]"
+      @click="displayMssionChange(data.text)"
+      >{{ cardText[data.clear] }}</v-card>
 
+      </div>
       </v-layout>
       </v-container>
   <v-container v-else>
-    まだだよ
+    前の階をクリアしよう！
   </v-container>
     </v-card>
 
@@ -158,39 +132,93 @@ v-model="tab">
 
 <script>
   export default{
-    beforeCreate(){
-      this.$firestore.collection("Mission").get()
+    async beforeCreate(){
+      await this.$firestore.collection("Mission").get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           this.missionDatas.push(doc.data())
-      console.log(this.missionDatas)
-
-      
 
         })
+        console.log(this.missionDatasmissionDatas)
       })
-      console.log("aaa")
+      const uid = await this.$auth.currentUser.uid
+      await console.log({uid})
+      await this.$firestore.doc(`Team/${uid}`)
+        .get()
+        .then(doc=>{
+          this.team = doc.data().team
+          this.nowStage = doc.data().nowStage*1
+          this.stage1Missions = doc.data().mainMission.stage1
+          this.stage2Missions = doc.data().mainMission.stage2
+          this.stage3Missions = doc.data().mainMission.stage3
+          this.stage4Missions = doc.data().mainMission.stage4
+      })
+
+      const stage1 = await this.stage1Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage1 =  await stage1
+      await console.log({stage1})
+
+      const stage2 = await this.stage2Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage2 =  await stage2
+      await console.log({stage2})
+
+      const stage3 = await this.stage3Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage3 =  await stage3
+      await console.log({stage3})
+
+      const stage4 = await this.stage4Missions.map(missionData => {
+        const mission = this.missionDatas.filter(e => e.id == missionData.id)[0]
+        console.log({mission})
+        mission.clear = missionData.clear
+        return mission
+      })
+      this.stage4 =  await stage4
+      await console.log({stage4})
+      
+
+
     },
     data() {
       return{
+        team: "",
         dialog: false,
-        nowStage: 3,
+        nowStage: null,
         tab: null,
         displayMission: 1,
         nowDisplayText: "aaa",
+        cardText: ["未回答","承認待ち","クリア"],
+        cardColor:["white","amber lighten-4","amber accent-3"],
         missionDatas: [],
-        stage1Missions:[],
-        stage2Missions:[],
-        stage3Missions:[],
-        stage4Missions:[]
+        stage1:[],
+        stage2:[],
+        stage3:[],
+        stage4:[]
 
 
       }
     },
+    computed:{
+      //nowStageの数字がtabの数字より小さいとき、報告方法と報告ボタンを出さない
+    },
     methods: {
       displayMssionChange(x){
-        this.nowDisplayText = this.missionDatas[x - 1].text
-        console.log(this.nowDisplayText)
+        this.nowDisplayText = x
+      },
+
+      async tabConsole(){
+        await console.log(this.tab)
       }
     }
     }
