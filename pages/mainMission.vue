@@ -1,7 +1,7 @@
 <template>
 <div>
 <v-card class="mt-3 mb-3 justify-center" width="40%" tile flat>
-  <h3>合計得点：100pt</h3>
+  <h3>合計得点：{{ score }}pt</h3>
 </v-card>
 
 
@@ -151,6 +151,7 @@ v-model="tab">
         .then(doc=>{
           this.team = doc.data().team
           this.nowStage = doc.data().nowStage*1
+          this.score = doc.data().point.totalPoint
           this.stage1Missions = doc.data().mainMission.stage1
           this.stage2Missions = doc.data().mainMission.stage2
           this.stage3Missions = doc.data().mainMission.stage3
@@ -199,6 +200,7 @@ v-model="tab">
         dialog: false,
         nowStage: null,
         tab: null,
+        score: null,
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,

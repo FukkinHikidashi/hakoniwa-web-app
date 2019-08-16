@@ -7,9 +7,9 @@
         dark
         color="blue-grey lighten-3"
         >
-        TEAM<br>A
+        TEAM<br>{{team}}
         </v-btn>
-      <v-toolbar-title style="margin-left: 5vw"><h2 style="color: white">Aチーム</h2></v-toolbar-title>
+      <v-toolbar-title style="margin-left: 5vw"><h2 style="color: white">{{team}}チーム</h2></v-toolbar-title>
 
       <v-spacer></v-spacer>
         <v-btn
@@ -89,8 +89,26 @@
 <script>
   import lineIcon from "@/static/line-icon.png";
   export default {
+      async beforeCreate(){
+      const uid = await this.$auth.currentUser.uid
+      await console.log({uid})
+      await this.$firestore.doc(`Team/${uid}`)
+        .get()
+        .then(doc=>{
+          this.team = doc.data().team
+          this.totalPoint = doc.data().point.totalPoint
+
+      })
+
+
+    },
     data () {
       return {
+        team: null,
+        mainPoint: null,
+        subPoint: null,
+        eventPoint: null,
+        totalPoint: null,
         activeBtn: 1,
         bottomNav: true
       }
