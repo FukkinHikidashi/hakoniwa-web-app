@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top:10px;width:96vw; margin-left:auto;margin-right:auto;">
     <div >
-      <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center">
+      <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center" @click="test">
         <h3>ストーリー</h3>
       </div>
       <div style="margin-top:5px;margin-bottom:10px;border:solid 2px rgb(91,192,222,0.5)">
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center" @click="allget">
+    <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center" @click="getSubstory">
         <h3>ミッション</h3>
     </div>
 
@@ -20,8 +20,8 @@
       multiple
       style="margin-top:5px"
     >
-      <v-expansion-panel v-show="true" style="border:solid 2px rgb(91,192,222,0.5)">
-        <div style="background-color:rgb(91,192,222,0.5)">{{title}}</div>
+      <v-expansion-panel style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)"  @click="test">ppp</div>
         <v-expansion-panel-header>
           <div style="width:30%"><p>未回答</p></div>
           <div style="width:70%"><p>キーワード：魚</p></div>
@@ -75,21 +75,31 @@
 </template>
 
 <script>
+
   export default {
-    data: () => ({
-      panel: [0, 1, 2, 3],
-//      mission:{
-//       quiz1:{
-          title: "1.捕らわれの女の子",
-//          text:,
-//          story:,
-//          reply:,
-//          photoUrl:,
-//          keyword:,
-//          answers:,
-//        },
-//      },
-    }),
+    beforeCreate(){
+      //const uid = this.$auth.currentUser.uid
+      const uid = "wPenfOmOi4Y8ibxERyqzLU63TTe2"
+      this.$firestore.collection("Substory").get()
+      .then(snapshot => {
+        snapshot.forEach(doc =>{
+          this.substoryDatas.push(doc.data())
+          //console.log(this.substoryDatas)
+        })
+      })
+
+      this.$firestore.doc(`Team/teamXX`).get()
+      .then(doc=>{
+          this.teamStatus = doc.data()
+          console.log(this.teamStatus)
+        })
+
+    },
+    data:() =>({
+        panel: [0, 1, 2, 3],
+        substoryDatas:[],
+        teamStatus:[]
+     }),
     methods:{
       get(){
         this.$firestore.doc(`Team/teamXX`).get()
@@ -97,16 +107,25 @@
         )
 
       },
-      allget(){
-        let citiesRef = this.$firestore.collection('Mission').get()
-          .then(snapshot => {
+      allget(){console.log(substory);},
+      getSubstory(){
+        substory = this.$firestore.collection('Substory').get()
+        .then(snapshot => {
           snapshot.forEach(doc => {
-            console.log(doc.id, '=>', doc.data());
-          });
+            this.substoryDatas.push(doc.data())
+          })
+          console.log(substory);
         })
-        .catch(err => {
-          console.log('Error getting documents', err);
+
+          .catch(err => {
+            console.log('Error getting documents', err);
         });
+        const wife ="うづ"
+        console.log(wife)
+
+      },
+      test(){
+        console.log(substoryDatas)
       }
 
     }
