@@ -144,8 +144,8 @@ v-model="tab">
         })
         console.log(this.missionDatasmissionDatas)
       })
-      const uid = await this.$auth.currentUser.uid
-      await console.log({uid})
+      
+      const uid = this.$auth.currentUser.uid
       await this.$firestore.doc(`Team/${uid}`)
         .get()
         .then(doc=>{
@@ -203,7 +203,7 @@ v-model="tab">
         score: null,
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
-        bottonShow: true,
+        bottonShow: false,
         cardText: ["未回答","承認待ち","クリア"],
         cardColor:["white","amber lighten-4","amber accent-3"],
         missionDatas: [],

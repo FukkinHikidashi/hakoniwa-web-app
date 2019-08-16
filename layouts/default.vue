@@ -87,16 +87,14 @@
 </template>
 
 <script>
-  import lineIcon from "@/static/line-icon.png";
   export default {
       async beforeCreate(){
-      const uid = await this.$auth.currentUser.uid
-      await console.log({uid})
+      const uid = this.$auth.currentUser.uid
+      await console.log("aaa")
       await this.$firestore.doc(`Team/${uid}`)
         .get()
         .then(doc=>{
           this.team = doc.data().team
-          this.totalPoint = doc.data().point.totalPoint
 
       })
 
@@ -104,11 +102,7 @@
     },
     data () {
       return {
-        team: null,
-        mainPoint: null,
-        subPoint: null,
-        eventPoint: null,
-        totalPoint: null,
+        team: "",
         activeBtn: 1,
         bottomNav: true
       }

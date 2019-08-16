@@ -9,10 +9,10 @@
   遊び方
 </v-btn>
 
-<v-btn>総得点：100点</v-btn>
+<v-btn>総得点：{{totalPoint}}点</v-btn>
 
 <v-container class="mt-5">
-  <h3>メインミッション</h3>
+  <h3>メインミッション : 現在{{mainPoint}}点</h3>
   <v-card class="mb-5" to="/mainMission/">
     <v-layout>
     <v-flex xs5>
@@ -25,7 +25,7 @@
     </v-layout>
   </v-card>
 
-  <h3>サブストーリー</h3>
+  <h3>サブミッション : 現在{{subPoint}}点</h3>
   <v-card class="mb-5"  to="/subMission/">
     <v-layout>
     <v-flex xs5>
@@ -38,7 +38,7 @@
     </v-layout>
   </v-card>
 
-  <h3>イベント</h3>
+  <h3>イベント : 現在{{eventPoint}}点</h3>
   <v-card class="mb-5">
     <v-layout>
     <v-flex xs5>
@@ -56,6 +56,33 @@
 
 <script>
 export default {
+    async beforeCreate(){
+      const uid = await this.$auth.currentUser.uid
+      await console.log({uid})
+      await this.$firestore.doc(`Team/${uid}`)
+        .get()
+        .then(doc=>{
+          this.team = doc.data().team
+          this.totalPoint = doc.data().point.totalPoint
+          this.mainPoint = doc.data().point.mainPoint
+          this.subPoint = doc.data().point.subPoint
+          this.eventPoint = doc.data().point.eventPoint
+
+      })
+
+
+    },
+    data () {
+      return {
+        team: null,
+        mainPoint: null,
+        subPoint: null,
+        eventPoint: null,
+        totalPoint: null,
+        activeBtn: 1,
+        bottomNav: true
+      }
+    }
 
 }
 </script>
