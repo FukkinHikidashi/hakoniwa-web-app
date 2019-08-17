@@ -104,21 +104,31 @@ v-model="tab">
 
 </v-tabs-items>
 
-    <v-card color="warning" class="ma-2 align-center justify-center pa-1" style="height: 10vh">
+    <v-card color="amber lighten-3" class="ma-2 align-center justify-center pa-1" style="height: 10vh">
       <p>{{nowDisplayText}}</p>
     </v-card>
 
     <div v-show="bottonShow">
-    <v-card color="green" class="ma-2 align-center justify-center pa-1">
+    <v-card color="amber lighten-1" class="ma-2 align-center justify-center pa-1">
       <p>報告方法：{{ answerTypeExplain }}</p>
 
     </v-card>
   <v-layout style="margin: 10px">
-    <v-spacer />
   <div v-if="answerTypeExplain　=== '写真をアップロード'">
-    <v-btn color="green" large>
-    アップロード
-    </v-btn>
+    <upload-btn
+                :fileChangedCallback="uploadFile()"
+                color="green"
+                title="写真を選択"
+                class="mb-3"
+              ></upload-btn>{{confirmText}}
+  <div>
+<v-btn
+                color="primary"
+                :disabled="!baseImg"
+                @click="sendToFirestorage()"
+                :loading="loading"
+              >アップロード</v-btn>
+  </div>
   </div>
   <div v-if="answerTypeExplain　=== 'テキストを入力して送信'">
     <v-text-field
@@ -153,6 +163,8 @@ v-model="tab">
 </template>
 
 <script>
+import UploadBtn from "@/components/UploadBtn";
+
 function bingoCheck(reveal){
 
 const rowBingo = reveal.map(row=>row.every(n=>n));
@@ -168,6 +180,7 @@ console.log(rowBingo,columnBingo/*,xBingo*/)
 return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
 
 }
+
   export default{
     async beforeCreate(){
       await this.$firestore.collection("Mission").get()
@@ -281,8 +294,10 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       this.tab = await this.nowStage - 1
       
     },
+    components: { UploadBtn },
     data() {
       return{
+        loading:false,
         team: "",
         dialog: false,
         nowStage: null,
@@ -301,7 +316,10 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         stage4:[],
         reveal:[],
         text4Submit: "",
-        cleared: false
+        cleared: false,
+        basePixelMax: "",
+        baseImg: "",
+        confirmText:""
 
 
       }
@@ -353,7 +371,57 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         await this.$firestore.doc(`Team/${this.$auth.currentUser.uid}`)
         .update() */
 
-      }
+      },
+      uploadFile() {
+      return async file => {
+        if (!file) {
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = ({ target: { result } }) => {
+          const image = new Image();
+          image.src = result;
+          image.onload = () => {
+            // resize
+            const { naturalWidth, naturalHeight } = image;
+            console.log({ naturalWidth, naturalHeight });
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = naturalWidth;
+            canvas.height = naturalHeight;
+            ctx.drawImage(image, 0, 0, naturalWidth, naturalHeight);
+            result = canvas.toDataURL();
+            this.baseImg = result;
+            console.log({ uploaded: result });
+          };
+        };
+        reader.readAsDataURL(file);
+        this.confirmText = "選択OK！"
+      };
+    },
+    async sendToFirestorage(){
+      this.loading = true
+      const ref = await this.$storage.ref()
+      const imageDataUrl = await this.baseImg
+            console.log({imageDataUrl})
+
+      await ref.putString(imageDataUrl, 'data_url').then(function(snapshot) {
+  console.log('Uploaded a data_url string!');
+}).catch(err=>{
+            console.log(err)
+            this.errText = err.message
+            this.confirmText = "アップロード失敗…"
+          })
+          .finally(()=>{
+            this.confirmText = "アップロード完了！"
+            this.loading = false;
+          })
+
+
+
+
+    }
     }
     }
   

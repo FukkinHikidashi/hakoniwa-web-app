@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
+import "firebase/storage"
 
 const config = {
   apiKey: "AIzaSyC918nZqRY9o_Hyjxb0ei42AybHXDhvuyQ",
@@ -15,6 +16,7 @@ const config = {
 firebase.initializeApp(config)
 
 const firestore = firebase.firestore()
+const storage = firebase.storage()
 const GeoPoint = firebase.firestore.GeoPoint;
 const auth = firebase.auth()
 
@@ -22,6 +24,7 @@ export default function(app,inject){
   inject("firestore",firestore)  //this.$firestore
   inject("auth",auth) //this.$auth
   inject("GeoPoint", GeoPoint)
+  inject("storage", storage)
 
   const {redirect} = app;
 
