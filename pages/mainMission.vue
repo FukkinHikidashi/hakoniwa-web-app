@@ -120,9 +120,15 @@ v-model="tab">
     アップロード
     </v-btn>
   </div>
-  <div v-if="answerTypeExplain　=== 'テキストを入力'">
-  <v-btn color="green" large>
-    入力
+  <div v-if="answerTypeExplain　=== 'テキストを入力して送信'">
+    <v-text-field
+    v-model="text4Submit"
+    label="答えを入力"
+    color="white"
+    width="100%" />
+  <v-btn color="green" large right
+  @click="submitText()">
+    送信
   </v-btn>
   </div>
   </v-layout>
@@ -282,6 +288,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         nowStage: null,
         tab: null,
         score: null,
+        nowDisplayMission: null,
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,
@@ -293,6 +300,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         stage3:[],
         stage4:[],
         reveal:[],
+        text4Submit: "",
         cleared: false
 
 
@@ -303,14 +311,17 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
     },
     methods: {
       displayMssionChange(x){
+        this.nowDisplayMission = x
         this.nowDisplayText = x.text
+
+        console.log(this.nowDisplayMission)
 
         if(x.answerType === "photo" ){
           this.answerTypeExplain = "写真をアップロード"
         }
 
         if(x.answerType === "text"){
-          this.answerTypeExplain = "テキストを入力"
+          this.answerTypeExplain = "テキストを入力して送信"
         }
       
       },
@@ -330,8 +341,17 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
           this.bottonShow = true
         }
 
-
-        
+      },
+      async submitText(){
+        const submitData = await this.nowDisplayMission
+        submitData.answer = await this.text4Submit
+        submitData.team = await this.team
+        submitData.uid = await this.$auth.currentUser.uid
+        submitData.key = await new Date().getTime()
+        await this.$firestore.collection("mainMissionAnswer").add(submitData)
+        /*承認待ちにする
+        await this.$firestore.doc(`Team/${this.$auth.currentUser.uid}`)
+        .update() */
 
       }
     }
