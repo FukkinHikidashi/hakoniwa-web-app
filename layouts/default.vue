@@ -57,8 +57,8 @@
       to="/mainMission"
       color="amber accent-1"
     >
-      <span>MainMission</span>
-      <v-icon>mdi-heart</v-icon>
+      <span>Main Mission</span>
+      <v-icon>mdi-note</v-icon>
     </v-btn>
 
     <v-btn
@@ -67,8 +67,8 @@
       color="amber accent-1"
 
     >
-      <span>SubMission</span>
-      <v-icon>mdi-note</v-icon>
+      <span>Sub Story</span>
+      <v-icon>mdi-alarm</v-icon>
     </v-btn>
 
     <v-btn

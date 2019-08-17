@@ -30,7 +30,7 @@
     </v-layout>
   </v-card>
 
-  <h3>サブミッション : 現在{{subPoint}}点</h3>
+  <h3>サブストーリー : 現在{{subPoint}}点</h3>
   <v-card class="mb-5"  to="/subMission/">
     <v-layout>
     <v-flex xs5>
@@ -38,8 +38,12 @@
       aspect-ratio="1" />
     </v-flex>
     <v-flex xs7>
-    bbb
-    </v-flex>
+      <v-layout row wrap>
+      <v-container>
+        <p>【クイズ好きな女の子】</p>
+        <p>イベント進行とともに解放されるクイズを進めて女の子を探し出せ！</p>
+      </v-container>
+      </v-layout>    </v-flex>
     </v-layout>
   </v-card>
 
