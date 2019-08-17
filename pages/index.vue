@@ -20,7 +20,12 @@
       aspect-ratio="1" />
     </v-flex>
     <v-flex xs7>
-    aaa
+      <v-layout row wrap>
+      <v-container>
+        <p>【トレージャーバトル】<br>～謎の塔の宝物～</p>
+        <p>ビンゴをクリアして進み４階にある宝箱を目指せ！</p>
+      </v-container>
+      </v-layout>
     </v-flex>
     </v-layout>
   </v-card>
@@ -46,7 +51,11 @@
       aspect-ratio="1" />
     </v-flex>
     <v-flex xs7>
-    ccc
+      <v-layout row wrap>
+      <v-container>
+        <p>突発イベントも開催！？<br>【現在準備中】</p>
+      </v-container>
+      </v-layout>
     </v-flex>
     </v-layout>
   </v-card>
@@ -92,5 +101,9 @@ export default {
 .point {
   text-align: right;
 
+}
+
+p {
+  font-size: 0.9rem;
 }
 </style>
