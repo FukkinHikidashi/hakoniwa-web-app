@@ -104,9 +104,23 @@ v-model="tab">
 
 </v-tabs-items>
 
-    <v-card color="amber lighten-3" class="ma-2 align-center justify-center pa-1" style="height: 10vh">
+    <v-card color="amber lighten-3" class="ma-2 align-center justify-center pa-1" style="height: 10vh"
+    @click="photoDialog=true">
       <p>{{nowDisplayText}}</p>
     </v-card>
+
+    <div v-if="nowDisplayMission.photoUrl">
+      <v-dialog v-model="photoDialog">
+    <v-card>
+      <v-container>
+      <v-layout column wrap justify-center align-center>
+      ミッション画像
+         <v-img :src="nowDisplayMission.photoUrl" />
+      </v-layout>
+      </v-container>
+    </v-card>
+  </v-dialog>
+    </div>
 
     <div v-show="bottonShow">
     <v-card color="amber lighten-1" class="ma-2 align-center justify-center pa-1">
@@ -300,10 +314,11 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         loading:false,
         team: "",
         dialog: false,
+        photoDialog: false,
         nowStage: null,
         tab: null,
         score: null,
-        nowDisplayMission: null,
+        nowDisplayMission: "",
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,
