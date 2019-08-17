@@ -35,7 +35,7 @@ v-model="tab">
       >{{ cardText[el.clear] }}</v-card>
 
       </div>
-      </v-layout> 
+      </v-layout>
   </v-container>
   </v-card>
 
@@ -133,7 +133,7 @@ v-model="tab">
   </div>
   </v-layout>
     </div>
-  
+
   <v-dialog v-model="dialog">
     <v-card>
       <v-container>
@@ -148,7 +148,7 @@ v-model="tab">
   </v-dialog>
 
 
-  
+
 </div>
 </template>
 
@@ -222,8 +222,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       })
       this.stage4 =  await stage4
       await console.log({stage4})
-      
-      
+
+
       if(await this.nowStage === 1){
         const clearCheckAry = await stage1.map(mission => {
           return (mission.clear === 2)
@@ -270,7 +270,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         this.reveal = await clearCheckAry
         this.cleared = await clearCheckAry[0]
       }
-      
+
       await console.log({cleared:this.cleared})
 
       if(await this.cleared === true){
@@ -279,7 +279,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       }
 
       this.tab = await this.nowStage - 1
-      
+
     },
     data() {
       return{
@@ -323,7 +323,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         if(x.answerType === "text"){
           this.answerTypeExplain = "テキストを入力して送信"
         }
-      
+
       },
       async toNext(){
         this.nowStage = await this.nowStage  + 1
@@ -334,7 +334,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       async tabClick(){
         await console.log(this.tab)
         await console.log(this.tab)
-        
+
         if(this.nowStage - 1 > this.tab){
           this.bottonShow = false
         }else{
@@ -356,7 +356,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       }
     }
     }
-  
+
 
 </script>
 
