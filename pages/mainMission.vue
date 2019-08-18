@@ -178,6 +178,7 @@ v-model="tab">
 
 <script>
 import UploadBtn from "@/components/UploadBtn";
+import { async } from 'q';
 
 function bingoCheck(reveal){
 
@@ -334,7 +335,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         cleared: false,
         basePixelMax: "",
         baseImg: "",
-        confirmText:""
+        confirmText: "",
+        url:""
 
 
       }
@@ -416,8 +418,9 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       };
     },
     async sendToFirestorage(){
-      this.loading = true
-      const ref = await this.$storage.ref()
+      this.loading = await true
+      const pathTime = await new Date().getTime().toString()
+      const ref = await this.$storage.ref().child(pathTime)
       const imageDataUrl = await this.baseImg
             console.log({imageDataUrl})
 
@@ -432,6 +435,23 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
             this.confirmText = "アップロード完了！"
             this.loading = false;
           })
+      await ref.getDownloadURL().then(async function(url) {
+        await console.log({url})
+        let dataUrl = await url
+
+        const submitData = await this.nowDisplayMission
+        submitData.answer = await dataUrl
+        submitData.team = await this.team
+        submitData.uid = await this.$auth.currentUser.uid
+        submitData.key = await new Date().getTime()
+        await this.$firestore.collection("mainMissionAnswer").add(submitData)
+
+  })
+
+        await console.log("done")     
+
+
+
 
 
 
