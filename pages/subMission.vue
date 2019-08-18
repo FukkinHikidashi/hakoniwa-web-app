@@ -7,11 +7,17 @@
       <div style="margin-top:5px;margin-bottom:10px;border:solid 2px rgb(91,192,222,0.5)">
         <p v-if="quiz1Clear==0">comming soon</p>
         <p v-if="quiz1Clear!=0">ここは宝が眠る謎の塔の見える町。トレジャーハントに出かける前夜、町の酒場で英気を養うあなたたちに不思議な依頼が舞い込みました。</p>
-        <p v-if="quiz1Clear!=0">クイズに挑戦してポイントとキーワードをゲットしよう！</p>
-        <p v-if="quiz1Clear!=0">クイズに正解するとポイントをゲットできるぞ！</p>
+        <p v-if="quiz1Clear!=0">※クイズに挑戦してもらったキーワードをもとに女の子に会いに行こう！<br>
+                                クイズに正解するとポイントをゲットできるぞ！※</p>
 
       </div>
     </div>
+
+    <v-dialog v-model="cautionOpen">
+      <v-card  >
+      <div style="padding:50px" align="center"><h3>サブストーリーが<br>更新されました。</h3></div>
+      </v-card>
+    </v-dialog>
 
     <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center">
         <h3>クイズ</h3>
@@ -33,18 +39,16 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div>
-            <v-flex xs5>
+            <v-flex>
             <p>ストーリー</p>
             <p>―君たちは始まるトレージャーバトルを前に酒場で酒盛りをしている。―</p>
             <p>酒場の店主「やあ元気かい？お前らに預かりもんだぞ。」店主はそう笑いながら１枚の紙を差し出してきた。</p>
-            <p>{{text4Submit}}</p>
-            <p>{{quiz1Title}}</p>
             </v-flex>
           </div>
           <p>問題</p>
-          <div sytle="width:100px height:100px">
-            <v-img :src="question01Image"
-          />
+          <div>
+            <!--<v-img :src="question01Image"
+          />-->
           </div>
           <div>
           <v-col cols="12" sm="6" md="3">
@@ -103,7 +107,7 @@
 
   export default {
     beforeCreate(){
-
+      this.cautionOpen = true
       this.loading = true
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここから)
       this.$firestore.doc(`Substory/quiz1`).get()
@@ -168,10 +172,16 @@
         quiz4Clear:null,
         quiz5Clear:null,
         question01Image: require("@/static/Substory01.jpg"),
+        question02Image: require("@/static/Substory02.jpg"),
+        question03Image: require("@/static/Substory03.jpg"),
+        question04Image: require("@/static/Substory04.jpg"),
+        question05Image: require("@/static/Substory05.jpg"),
         text4Submit: "",
         nowDisplayMission: null,
         submitData:{},
-        testUid:""
+        testUid:"",
+        cautionOpen:false,
+        cautionText:""
         }
     },
     methods:{
