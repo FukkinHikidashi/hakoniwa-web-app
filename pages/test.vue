@@ -13,10 +13,11 @@ export default {
         }
     },
     methods:{
-        createTeamData(){
+        async createTeamData(){
             this.$firestore.collection("Team").doc("backup").get()
             .then(doc => {
-                this.$firestore.collection("Team").doc("xxxxxxxxxxxxxx").set(doc.data())
+
+                this.$firestore.collection("Team").doc("wPenfOmOi4Y8ibxERyqzLU63TTe2").set(doc.data())
             })
         }
 

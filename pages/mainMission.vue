@@ -213,10 +213,10 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
           this.team = doc.data().team
           this.nowStage = doc.data().nowStage*1
           this.score = doc.data().point.totalPoint
-          this.stage1Missions = doc.data().mainMission.stage1
-          this.stage2Missions = doc.data().mainMission.stage2
-          this.stage3Missions = doc.data().mainMission.stage3
-          this.stage4Missions = doc.data().mainMission.stage4
+          this.stage1Missions = doc.data().mainMission.slice(0,16)
+          this.stage2Missions = doc.data().mainMission.slice(16,25)
+          this.stage3Missions = doc.data().mainMission.slice(25,29)
+          this.stage4Missions = doc.data().mainMission.slice(29,30)
       })
 
       const stage1 = await this.stage1Missions.map(missionData1 => {
@@ -435,7 +435,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
             this.confirmText = "アップロード完了！"
             this.loading = false;
           })
-      await ref.getDownloadURL().then(async function(url) {
+/*      await ref.getDownloadURL().then(async function(url) {
         await console.log({url})
         let dataUrl = await url
 
@@ -448,7 +448,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
 
   })
 
-        await console.log("done")     
+        await console.log("done")     */
 
 
 
