@@ -151,6 +151,7 @@ v-model="tab">
     color="white"
     width="100%" />
   <v-btn color="green" large right
+  :disabled="!text4Submit"
   @click="submitText()">
     送信
   </v-btn>
@@ -213,10 +214,11 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
           this.team = doc.data().team
           this.nowStage = doc.data().nowStage*1
           this.score = doc.data().point.totalPoint
-          this.stage1Missions = doc.data().mainMission.slice(0,16)
-          this.stage2Missions = doc.data().mainMission.slice(16,25)
-          this.stage3Missions = doc.data().mainMission.slice(25,29)
-          this.stage4Missions = doc.data().mainMission.slice(29,30)
+          this.missionStatus = doc.data().mainMission
+          this.stage1Missions = this.missionStatus.slice(0,16)
+          this.stage2Missions = this.missionStatus.slice(16,25)
+          this.stage3Missions = this.missionStatus.slice(25,29)
+          this.stage4Missions = this.missionStatus.slice(29,30)
       })
 
       const stage1 = await this.stage1Missions.map(missionData1 => {
@@ -319,13 +321,14 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         nowStage: null,
         tab: null,
         score: null,
-        nowDisplayMission: "",
+        nowDisplayMission: {},
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,
         cardText: ["未回答","承認待ち","クリア"],
         cardColor:["white","amber lighten-4","amber accent-3"],
         missionDatas: [],
+        missionStatus: [],
         stage1:[],
         stage2:[],
         stage3:[],
@@ -346,6 +349,9 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
     },
     methods: {
       displayMssionChange(x){
+        this.confirmText = ""
+        this.baseImg = ""
+        this.text4Submit = ""
         this.nowDisplayMission = x
         this.nowDisplayText = x.text
 
@@ -378,15 +384,27 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
 
       },
       async submitText(){
+        this.loading = await true
         const submitData = await this.nowDisplayMission
         submitData.answer = await this.text4Submit
         submitData.team = await this.team
         submitData.uid = await this.$auth.currentUser.uid
         submitData.key = await new Date().getTime()
-        await this.$firestore.collection("mainMissionAnswer").add(submitData)
-        /*承認待ちにする
-        await this.$firestore.doc(`Team/${this.$auth.currentUser.uid}`)
-        .update() */
+        const renewedStatus = await this.missionStatus
+        const firestore = await this.$firestore
+        await firestore.collection("mainMissionAnswer").add(submitData)
+
+        const renew = await renewedStatus.map(eachStatus => {
+          if(eachStatus.id === submitData.id){
+            return {id: eachStatus.id, clear: 1}
+          }else{
+            return eachStatus
+          }
+        })
+        await firestore.doc(`Team/${submitData.uid}`).update({mainMission: renew})
+
+
+        await console.log("done")     
 
       },
       uploadFile() {
@@ -423,6 +441,12 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       const ref = await this.$storage.ref().child(pathTime)
       const imageDataUrl = await this.baseImg
             console.log({imageDataUrl})
+      const submitData =  await this.nowDisplayMission
+      submitData.team =  await this.team
+      submitData.uid =  await this.$auth.currentUser.uid
+      const firestore = await this.$firestore
+      const renewedStatus = await this.missionStatus
+
 
       await ref.putString(imageDataUrl, 'data_url').then(function(snapshot) {
   console.log('Uploaded a data_url string!');
@@ -435,20 +459,25 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
             this.confirmText = "アップロード完了！"
             this.loading = false;
           })
-/*      await ref.getDownloadURL().then(async function(url) {
+      await ref.getDownloadURL().then(async function(url) {
         await console.log({url})
-        let dataUrl = await url
 
-        const submitData = await this.nowDisplayMission
-        submitData.answer = await dataUrl
-        submitData.team = await this.team
-        submitData.uid = await this.$auth.currentUser.uid
-        submitData.key = await new Date().getTime()
-        await this.$firestore.collection("mainMissionAnswer").add(submitData)
+        submitData.answer =  url
+        submitData.key =  new Date().getTime()
+        await firestore.collection("mainMissionAnswer").add(submitData)
 
   })
 
-        await console.log("done")     */
+        const renew = await renewedStatus.map(eachStatus => {
+          if(eachStatus.id === submitData.id){
+            return {id: eachStatus.id, clear: 1}
+          }else{
+            return eachStatus
+          }
+        })
+        await firestore.doc(`Team/${submitData.uid}`).update({mainMission: renew})
+
+        await console.log("done")     
 
 
 
