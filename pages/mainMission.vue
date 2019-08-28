@@ -23,7 +23,6 @@ v-model="tab">
 
 
 <v-tab-item>
-  <!--ビンゴカード　上ほどステージが進む -->
   <v-card color="light-blue lighten-4" flat>
 
   <v-container v-if="nowStage >= 1">
@@ -115,7 +114,7 @@ v-model="tab">
       <v-container>
       <v-layout column wrap justify-center align-center>
       ミッション画像
-         <v-img :src="nowDisplayMission.photoUrl" />
+        <v-img :src="nowDisplayMission.photoUrl" />
       </v-layout>
       </v-container>
     </v-card>
@@ -152,9 +151,11 @@ v-model="tab">
     width="100%" />
   <v-btn color="green" large right
   :disabled="!text4Submit"
+  :loading="loading"
   @click="submitText()">
     送信
   </v-btn>
+  {{this.confirmText}}
   </div>
   </v-layout>
     </div>
@@ -403,8 +404,11 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         })
         await firestore.doc(`Team/${submitData.uid}`).update({mainMission: renew})
 
-
-        await console.log("done")     
+        await console.log("done") 
+        this.confirmText = await "送信完了！"
+        this.loading = await false
+        this.text4Submit = await ""
+        
 
       },
       uploadFile() {
@@ -477,13 +481,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         })
         await firestore.doc(`Team/${submitData.uid}`).update({mainMission: renew})
 
-        await console.log("done")     
-
-
-
-
-
-
+        await console.log("done") 
+        this.baseImg = await ""
 
     }
     }
