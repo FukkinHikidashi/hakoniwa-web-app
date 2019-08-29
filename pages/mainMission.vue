@@ -306,6 +306,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
 
       if(await this.cleared === true){
         this.dialog =  await true
+        this.bottonShow = await false
         await this.$firestore.doc(`Team/${uid}`).update({nowStage: this.nowStage + 1})
       }
 
@@ -326,8 +327,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,
-        cardText: ["未回答","承認待ち","クリア"],
-        cardColor:["white","amber lighten-4","amber accent-3"],
+        cardText: ["未回答","承認待ち","クリア","再挑戦"],
+        cardColor:["white","amber lighten-4","amber accent-3","grey"],
         missionDatas: [],
         missionStatus: [],
         stage1:[],
@@ -357,6 +358,21 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         this.nowDisplayText = x.text
 
         console.log(this.nowDisplayMission)
+
+        //クリアしていたら回答ボタンを表示しない
+        if(this.nowDisplayMission.clear === 2){
+          this.bottonShow = false
+        }else{
+          if(this.nowStage - 1 > this.tab){
+            this.bottonShow = false
+          }else{
+          this.bottonShow = true
+          }
+        }
+
+        if(this.cleared === true){
+          this.bottonShow = false
+        }
 
         if(x.answerType === "photo" ){
           this.answerTypeExplain = "写真をアップロード"
@@ -390,6 +406,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         submitData.answer = await this.text4Submit
         submitData.team = await this.team
         submitData.uid = await this.$auth.currentUser.uid
+        submitData.nowStage = await this.nowStage
         submitData.key = await new Date().getTime()
         const renewedStatus = await this.missionStatus
         const firestore = await this.$firestore
@@ -448,6 +465,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
       const submitData =  await this.nowDisplayMission
       submitData.team =  await this.team
       submitData.uid =  await this.$auth.currentUser.uid
+      submitData.nowStage = await this.nowStage
       const firestore = await this.$firestore
       const renewedStatus = await this.missionStatus
 
