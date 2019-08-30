@@ -59,7 +59,7 @@
           ></v-text-field>
           </v-col>
           <v-btn color="green" large right
-          @click="test()">
+          @click="submitQ1Text()">
           送信
         </v-btn>
         </div>
@@ -188,7 +188,7 @@
     uid(){
       return this.$auth.currentUser.uid
     },
-    get(){
+    /*get(){
       const uid = this.uid()
       this.hoge = null;
       this.$firestore.doc(`users/${uid}`)
@@ -196,22 +196,18 @@
         .then(doc=>{
           this.hoge = doc.data()
         })
-    },
+    },*/
 
       test(){
         console.log("uid")
       },
       submitQ1Text(){
-      test()
       console.log(this.quiz1Title)
       this.$firestore.collection('subStoryAnswer').add({
-        answer:{
-
-          question:"答えはcow",
+          question:this.quiz1Title,
           quizNum:1,
-          answerText:test,
+          answerText:this.text4Submit,
           submitTime:new Date().getTime()
-        },
       })
 
       }
