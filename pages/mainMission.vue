@@ -1,8 +1,11 @@
 <template>
 <div>
-<v-card class="mt-3 mb-3 justify-center" width="40%" tile flat>
-  <h3>合計得点：{{ score }}pt</h3>
+<v-card class="mt-3 mb-3" width="40%" tile flat>
+  <v-layout>
+  <h2>得点：{{ score }}pt</h2>
+  </v-layout>
 </v-card>
+
 
 
         <v-tabs
@@ -11,10 +14,10 @@
         hide-slider
         >
         <v-layout justify-space-around>
-            <v-tab @click="tabClick()">1階</v-tab>
-            <v-tab @click="tabClick()">2階</v-tab>
-            <v-tab @click="tabClick()">3階</v-tab>
-            <v-tab @click="tabClick()">4階</v-tab>
+            <v-tab @click="tabClick()"><h3>1F</h3></v-tab>
+            <v-tab @click="tabClick()"><h3>2F</h3></v-tab>
+            <v-tab @click="tabClick()"><h3>3F</h3></v-tab>
+            <v-tab @click="tabClick()"><h3>4F</h3></v-tab>
         </v-layout>
         </v-tabs>
 
@@ -27,11 +30,15 @@ v-model="tab">
 
   <v-container v-if="nowStage >= 1">
       <v-layout justify-center wrap width="100vw">
-      <div v-for="el in stage1" :key="el.id">
+      <div v-for="(el,num) in stage1" :key="el.id">
       <v-card width="22vw" height="22vw" tile
       :color="cardColor[el.clear]"
       @click="displayMssionChange(el)"
-      >{{ cardText[el.clear] }}</v-card>
+      style="text-align: center"
+      >
+      <div v-if="cardText[el.clear]">
+      <br>{{ cardText[el.clear] }}</div>
+      <div v-else><br>{{num + 1}}</div></v-card>
 
       </div>
       </v-layout>
@@ -108,18 +115,33 @@ v-model="tab">
       <p>{{nowDisplayText}}</p>
     </v-card>
 
+  <div v-if="nowStage <= 3">
     <div v-if="nowDisplayMission.photoUrl">
       <v-dialog v-model="photoDialog">
     <v-card>
       <v-container>
       <v-layout column wrap justify-center align-center>
       ミッション画像
-        <v-img :src="nowDisplayMission.photoUrl" />
+        <v-img class="mb-3" :src="nowDisplayMission.photoUrl" />
+        <v-btn @click="photoDialog=false" color="primary">戻る</v-btn>
       </v-layout>
       </v-container>
     </v-card>
   </v-dialog>
     </div>
+  </div>
+  <div v-if="nowDStage = 4">
+    <v-dialog v-model="photoDialog">
+      <v-card>
+      <v-container>
+      <v-layout column wrap justify-center align-center>
+        各階でクリアした時の画像を再表示
+        <v-btn @click="photoDialog=false" color="primary">戻る</v-btn>
+      </v-layout>
+      </v-container>
+    </v-card>
+    </v-dialog>
+  </div>
 
     <div v-show="bottonShow">
     <v-card color="amber lighten-1" class="ma-2 align-center justify-center pa-1">
@@ -130,7 +152,7 @@ v-model="tab">
   <div v-if="answerTypeExplain　=== '写真をアップロード'">
     <upload-btn
                 :fileChangedCallback="uploadFile()"
-                color="green"
+                color="deep-orange darken-4"
                 title="写真を選択"
                 class="mb-3"
               ></upload-btn>{{confirmText}}
@@ -175,6 +197,7 @@ v-model="tab">
 
 
 
+
 </div>
 </template>
 
@@ -214,7 +237,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         .then(doc=>{
           this.team = doc.data().team
           this.nowStage = doc.data().nowStage*1
-          this.score = doc.data().point.totalPoint
+          this.score = doc.data().point.mainPoint
           this.missionStatus = doc.data().mainMission
           this.stage1Missions = this.missionStatus.slice(0,16)
           this.stage2Missions = this.missionStatus.slice(16,25)
@@ -327,8 +350,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         nowDisplayText: "ビンゴのマスをタップしてください！",
         answerTypeExplain:"",
         bottonShow: true,
-        cardText: ["未回答","承認待ち","クリア","再挑戦"],
-        cardColor:["white","amber lighten-4","amber accent-3","grey"],
+        cardText: [false,"Check","Clear","Retry"],
+        cardColor:["white","amber lighten-4","amber accent-3","deep-purple lighten-3"],
         missionDatas: [],
         missionStatus: [],
         stage1:[],
@@ -341,7 +364,8 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         basePixelMax: "",
         baseImg: "",
         confirmText: "",
-        url:""
+        url:"",
+        photoPreviedWhenBingo:[]
 
 
       }
