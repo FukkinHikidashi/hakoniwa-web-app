@@ -1,15 +1,32 @@
 <template>
 <div>
+<v-container>
+<v-layout>
 
-<v-btn color="primary">
+<v-btn color="primary" left
+@click="story=true">
   ストーリー
 </v-btn>
 
-<v-btn style="margin-right: 5vw">
+<!-- <v-btn style="margin-right: 5vw">
   遊び方
-</v-btn>
+</v-btn> -->
+<v-spacer />
 
-総得点：{{totalPoint}}点
+
+<h2 style="text-align: right">総得点：{{totalPoint}}点</h2>
+</v-layout>
+</v-container>
+
+<v-dialog v-model="story">
+<v-container>
+  <v-layout wrap justify-center align-center>
+      <v-img class="mb-3" :src="storyImg" />
+      <v-btn color="orange" large
+      @click="story=false">戻る</v-btn>
+  </v-layout>
+</v-container>
+</v-dialog>
 
 <v-container class="mt-5">
   <h3>メインミッション : 現在{{mainPoint}}点</h3>
@@ -76,10 +93,11 @@ export default {
         .get()
         .then(doc=>{
           this.team = doc.data().team
-          this.totalPoint = doc.data().point.totalPoint
           this.mainPoint = doc.data().point.mainPoint
           this.subPoint = doc.data().point.subPoint
           this.eventPoint = doc.data().point.eventPoint
+
+          this.totalPoint = this.mainPoint + this.subPoint + this.eventPoint
 
       })
 
@@ -93,7 +111,9 @@ export default {
         eventPoint: null,
         totalPoint: null,
         activeBtn: 1,
-        bottomNav: true
+        bottomNav: true,
+        story: false,
+        storyImg : "https://drive.google.com/uc?export=view&id=1SPQ180-i0S1Hg5ZxTqnj7qBaFVnNwyhh"
       }
     }
 

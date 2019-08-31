@@ -1,10 +1,11 @@
 <template>
 <div>
-<v-card class="mt-3 mb-3" width="40%" tile flat>
+<v-container>
   <v-layout>
-  <h2>得点：{{ score }}pt</h2>
+    <v-spacer />
+  <h2 style="text-align: right">得点：{{ score }}pt</h2>
   </v-layout>
-</v-card>
+</v-container>
 
 
 
@@ -51,11 +52,15 @@ v-model="tab">
     <v-card color="light-blue lighten-4" flat>
     <v-container v-if="nowStage >= 2">
       <v-layout justify-center wrap width="100vw">
-      <div v-for="data in stage2" :key="data.id">
+      <div v-for="(data,num) in stage2" :key="data.id">
       <v-card width="30vw" height="30vw" tile
       :color="cardColor[data.clear]"
       @click="displayMssionChange(data)"
-      >{{ cardText[data.clear] }}</v-card>
+      style="text-align: center"
+      >
+      <div v-if="cardText[data.clear]">
+      <br>{{ cardText[data.clear] }}</div>
+      <div v-else><br><br>{{num + 1}}</div></v-card>
 
       </div>
       </v-layout>
@@ -71,11 +76,15 @@ v-model="tab">
     <v-card color="light-blue lighten-4" flat>
     <v-container v-if="nowStage >= 3">
       <v-layout justify-center wrap width="100vw">
-      <div v-for="data in stage3" :key="data.id">
-      <v-card width="40vw" height="40vw" tile
+      <div v-for="(data,num) in stage3" :key="data.id">
+      <v-card width="45vw" height="45vw" tile
       :color="cardColor[data.clear]"
       @click="displayMssionChange(data)"
-      >{{ cardText[data.clear] }}</v-card>
+      style="text-align: center"
+      >
+      <div v-if="cardText[data.clear]">
+      <br>{{ cardText[data.clear] }}</div>
+      <div v-else><br><br><br>{{num + 1}}</div></v-card>
 
       </div>
       </v-layout>
@@ -93,10 +102,14 @@ v-model="tab">
   <v-container v-if="nowStage === 4">
       <v-layout justify-center wrap width="100vw">
       <div v-for="data in stage4" :key="data.id">
-      <v-card width="40vw" height="40vw" tile
+      <v-card width="50vw" height="50vw" tile
       :color="cardColor[data.clear]"
       @click="displayMssionChange(data)"
-      >{{ cardText[data.clear] }}</v-card>
+      style="text-align: center"
+      >
+      <div v-if="cardText[data.clear]">
+      <br>{{ cardText[data.clear] }}</div>
+      <div v-else><br><br><br>最終ミッション！</div></v-card>
 
       </div>
       </v-layout>
@@ -130,12 +143,14 @@ v-model="tab">
   </v-dialog>
     </div>
   </div>
-  <div v-if="nowDStage = 4">
+  <div v-if="nowDStage = 4 && tab ===3">
     <v-dialog v-model="photoDialog">
       <v-card>
       <v-container>
       <v-layout column wrap justify-center align-center>
-        各階でクリアした時の画像を再表示
+      <v-carousel class="mb-3">
+    <v-carousel-item v-for="(item,i) in photoPreviedWhenBingo" :src="item" :key="i"></v-carousel-item>
+  </v-carousel>
         <v-btn @click="photoDialog=false" color="primary">戻る</v-btn>
       </v-layout>
       </v-container>
@@ -187,8 +202,10 @@ v-model="tab">
       <v-container>
       <v-layout column wrap justify-center align-center>
       <h2>ビンゴ！</h2>
+      <v-img class="mb-3" :src="photoPreviedWhenBingo[nowStage]" />
       <v-btn color="primary"
       center
+      large
       @click="toNext()">次の階へ進む！</v-btn>
       </v-layout>
       </v-container>
@@ -365,7 +382,11 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         baseImg: "",
         confirmText: "",
         url:"",
-        photoPreviedWhenBingo:[]
+        photoPreviedWhenBingo:
+        ["https://drive.google.com/uc?export=view&id=1X0Y4DD5f7cQzel3vGfIe7AL07CRfRd-4",
+        "https://images.unsplash.com/photo-1560013764-b45ee3b3d786?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9",
+        "https://images.unsplash.com/photo-1549315311-697952be6cce?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
+        ]
 
 
       }

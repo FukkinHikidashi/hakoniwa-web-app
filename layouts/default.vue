@@ -34,6 +34,7 @@
     v-model="bottomNav"
     fixed
     color="deep-orange darken-4"
+    height="70"
   >
     <v-btn
       value="home"
