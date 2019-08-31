@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<v-btn>
+<v-btn color="primary">
   ストーリー
 </v-btn>
 
@@ -9,7 +9,7 @@
   遊び方
 </v-btn>
 
-<v-btn>総得点：{{totalPoint}}点</v-btn>
+総得点：{{totalPoint}}点
 
 <v-container class="mt-5">
   <h3>メインミッション : 現在{{mainPoint}}点</h3>
@@ -31,7 +31,7 @@
   </v-card>
 
   <h3>サブストーリー : 現在{{subPoint}}点</h3>
-  <v-card class="mb-5"  to="/subMission/">
+  <v-card class="mb-5" to="/subMission/">
     <v-layout>
     <v-flex xs5>
       <v-img src="https://images.unsplash.com/photo-1549315311-697952be6cce?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
