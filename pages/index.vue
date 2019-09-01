@@ -40,7 +40,7 @@
       <v-layout row wrap>
       <v-container>
         <p>【トレージャーバトル】<br>～謎の塔の宝物～</p>
-        <p>ビンゴをクリアして進み４階にある宝箱を目指せ！</p>
+        <p>ビンゴをクリアして最上階を目指せ！</p>
       </v-container>
       </v-layout>
     </v-flex>
@@ -57,7 +57,6 @@
     <v-flex xs7>
       <v-layout row wrap>
       <v-container>
-        <p>【クイズ好きな女の子】</p>
         <p>イベント進行とともに解放されるクイズを進めて女の子を探し出せ！</p>
       </v-container>
       </v-layout>    </v-flex>
