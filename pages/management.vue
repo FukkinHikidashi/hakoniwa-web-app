@@ -90,7 +90,7 @@ export default {
         })
 
         await this.mainMissionAnswers.sort((a, b) => {
-            return (a.key > b.key ? 1 : -1) 
+            return (a.key > b.key ? 1 : -1)
         })
         await console.log({mainMissionAnswers:this.mainMissionAnswers})
 
@@ -147,7 +147,7 @@ export default {
                     }else{
                         return x
                     }
-                    
+
                 })
                 firestore.doc(`Team/${uid}`).update({mainMission: renewedData})
             })
@@ -185,7 +185,7 @@ export default {
                     }else{
                         return x
                     }
-                    
+
                 })
                 firestore.doc(`Team/${uid}`).update({mainMission: renewedData})
             })
@@ -219,14 +219,14 @@ export default {
         renew(){
 
         }
-        
+
 
     },
     computed:{
 
         }
 
-    
+
 }
 </script>
 

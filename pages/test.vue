@@ -1,7 +1,7 @@
 <template>
 <div>
 <!-- firebase登録用にとりあえず作ったやつをおいておく場所-->
-    <v-btn @click="createTeamData()">create</v-btn>
+    <v-btn @click="alterTeam()">create</v-btn>
 
     <v-img src="https://firebasestorage.googleapis.com/v0/b/hakoniwa-190818.appspot.com/o/1567023462324?alt=media&token=a992e9ff-8d07-430c-ad79-fc35d694ef45"></v-img>
 </div>
@@ -25,8 +25,190 @@ export default {
                 this.$firestore.collection("Team").doc("wPenfOmOi4Y8ibxERyqzLU63TTe2").set(doc.data())
             })
         },
-         addTeam(){
-        const uid = "teamXX"
+        addTeam(){
+          const uid = "teamXX"
+          this.$firestore.collection("Team").doc(`${uid}`).set({
+            finTime:"",
+            gameStart:true,
+            status:0,
+            startTime:"",
+            limitTime:"",
+            logs:[0],
+            mainMission:{
+              0:{
+                clear:"",
+                id:""
+              },
+              1:{
+                clear:"",
+                id:""
+              },
+              2:{
+                clear:"",
+                id:""
+              },
+              3:{
+                clear:"",
+                id:""
+              },
+              4:{
+                clear:"",
+                id:""
+              },
+              5:{
+                clear:"",
+                id:""
+              },
+              6:{
+                clear:"",
+                id:""
+              },
+              7:{
+                clear:"",
+                id:""
+              },
+              8:{
+                clear:"",
+                id:""
+              },
+              9:{
+                clear:"",
+                id:""
+              },
+              10:{
+                clear:"",
+                id:""
+              },
+              11:{
+                clear:"",
+                id:""
+              },
+              12:{
+                clear:"",
+                id:""
+              },
+              13:{
+                clear:"",
+                id:""
+              },
+              14:{
+                clear:"",
+                id:""
+              },
+              15:{
+                clear:"",
+                id:""
+              },
+              16:{
+                clear:"",
+                id:""
+              },
+              17:{
+                clear:"",
+                id:""
+              },
+              18:{
+                clear:"",
+                id:""
+              },
+              19:{
+                clear:"",
+                id:""
+              },
+              20:{
+                clear:"",
+                id:""
+              },
+              21:{
+                clear:"",
+                id:""
+              },
+              22:{
+                clear:"",
+                id:""
+              },
+              23:{
+                clear:"",
+                id:""
+              },
+              24:{
+                clear:"",
+                id:""
+              },
+              25:{
+                clear:"",
+                id:""
+              },
+              26:{
+                clear:"",
+                id:""
+              },
+              27:{
+                clear:"",
+                id:""
+              },
+              28:{
+                clear:"",
+                id:""
+              },
+              29:{
+                clear:"",
+                id:""
+              },
+            },
+            nowStage:"",
+            photos:{},
+            point:{
+              eventPoint:0,
+              mainPoint:0,
+              subPoint:0,
+              totalPoint:0,
+            },
+            subStory:{
+              quiz1:{
+                clear:1,
+                delieryTime:0,
+                recentAnswer:""
+              },
+              quiz2:{
+                clear:0,
+                delieryTime:0,
+                recentAnswer:""
+              },
+              quiz3:{
+                clear:0,
+                delieryTime:0,
+                recentAnswer:""
+              },
+              quiz4:{
+                clear:0,
+                delieryTime:0,
+                recentAnswer:""
+              },
+              quiz5:{
+                clear:0,
+                delieryTime:0,
+                recentAnswer:""
+              },
+            }
+          })
+        },
+        alterTeam(){
+          const uid = this.$auth.currentUser.uid
+          firestore.doc(`Team/${uid}`).get()
+            .then(doc => {
+                const nowScore = doc.data().subStory
+                nowScore.quiz1.clear = 2
+                firestore.doc(`Team/${uid}`).update({subStory: nowScore})
+                console.log({nowScore})
+            })
+        }
+    }
+  }
+</script>
+
+addTeam(){
+        const uid = this.$auth.currentUser.uid
         this.$firestore.doc(`Team/${uid}`).set({
           finTime:"",
           gameStart:false,
@@ -192,11 +374,3 @@ export default {
             },
           }
         })
-      }
-    }
-  }
-</script>
-
-    }
-}
-</script>

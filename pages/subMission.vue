@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:10px;width:96vw; margin-left:auto;margin-right:auto;">
+  <div style="margin-top:10px;padding-bottom:10px;width:96vw; margin-left:auto;margin-right:auto;">
     <div >
       <div style="background-color:rgb(91,192,222,0.5);width:30%;text-align:center">
         <h3>ストーリー</h3>
@@ -13,9 +13,17 @@
       </div>
     </div>
 
-    <v-dialog v-model="cautionOpen" @click="test()">
+    <v-btn @click="alterTeam()">test</v-btn>
+
+    <v-dialog v-model="cautionOpen">
       <v-card  >
       <div style="padding:50px" align="center"><h3>サブストーリーが<br>更新されました。</h3></div>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="answerResOpen">
+      <v-card  >
+      <div style="padding:50px" align="center"><h3>{{answerResComment}}</h3></div>
       </v-card>
     </v-dialog>
 
@@ -25,80 +33,219 @@
 
     <v-expansion-panels
       v-model="panel"
-
       multiple
       style="margin-top:5px"
     >
+<!-- Question1 -->
       <v-expansion-panel v-if="quiz1Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
-        <div style="background-color:rgb(91,192,222,0.5)">町の酒場での不思議な依頼</div>
+        <div style="background-color:rgb(91,192,222,0.5)">1.町の酒場での不思議な依頼</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
-          <div style="width:30% "><p v-if="quiz1Clear==1">未回答</p>
+          <div style="width:30% "><p v-if="quiz1Clear==1">回答中</p>
                                   <p v-if="quiz1Clear==2">正解</p>
-                                  <p v-if="quiz1Clear==3">不正解</p></div>
+                                  <p v-if="quiz1Clear==3">時間ぎれ</p></div>
           <div style="width:70%"><p v-if="quiz1Clear >= 2">獲得キーワード：魚</p></div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div>
             <v-flex>
-            <p>ストーリー</p>
+            <h4>~ストーリー~</h4>
             <p>―君たちは始まるトレージャーバトルを前に酒場で酒盛りをしている。―</p>
             <p>酒場の店主「やあ元気かい？お前らに預かりもんだぞ。」店主はそう笑いながら１枚の紙を差し出してきた。</p>
-            {{answerText}}
             </v-flex>
           </div>
-          <p>問題</p>
+          <h4>~問題~</h4>
           <div>
-            <!--<v-img :src="question01Image"
-          />-->
+            <v-img :src="question01Image" width="80vw"/>
           </div>
           <div>
           <v-col cols="12" sm="6" md="3">
           <v-text-field
-            v-model="answerText"
+            v-if="quiz1Clear==1"
+            v-model="answerText1"
+            label="解答欄"
+            placeholder="答えを入力"
+          ></v-text-field>
+          </v-col>
+          <v-btn
+            v-if="quiz1Clear==1"
+            color="green" large right
+            @click="submitQ1Text()"
+          >
+          送信
+        </v-btn>
+        </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+<!-- Question2 -->
+
+      <v-expansion-panel v-if="quiz2Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)">2.依頼主の女の子</div>
+        <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
+          <div style="width:30% "><p v-if="quiz2Clear==1">回答中</p>
+                                  <p v-if="quiz2Clear==2">正解</p>
+                                  <p v-if="quiz2Clear==3">時間ぎれ</p></div>
+          <div style="width:70%"><p v-if="quiz2Clear >= 2">獲得キーワード：く</p></div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div>
+            <v-flex>
+            <h4>~ストーリー~</h4>
+            <p v-if="quiz1Clear==3">酒場の店主「ちと時間が足りなかったか。…ん？誰からかって？そりゃ…。」</p>
+            <p v-if="quiz1Clear==2">酒場の店主「おう、いとも簡単に解くなんてすげーじゃねーか！…ん？誰からかって？そりゃ…。」</p>
+            <p>女の子「私です！皆さん！」奥からひょこっと女の子が顔を出している。</p>
+            <p>女の子「もう１問遊びましょう！」</p>
+            </v-flex>
+          </div>
+          <h4>~問題~</h4>
+          <div>
+            <v-img :src="question02Image" width="80vw"/>
+          </div>
+          <div>
+          <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            v-if="quiz2Clear==1"
+            v-model="answerText2"
+            label="解答欄"
+            placeholder="答えを入力"
+          ></v-text-field>
+          </v-col>
+          <v-btn
+            v-if="quiz2Clear==1"
+            color="green" large right
+            @click="submitQ2Text()"
+          >
+          送信
+        </v-btn>
+        </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+<!-- Question3 -->
+
+      <v-expansion-panel v-if="quiz3Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)">3.会いたがってる女の子</div>
+        <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
+          <div style="width:30% "><p v-if="quiz3Clear==1">回答中</p>
+                                  <p v-if="quiz3Clear==2">正解</p>
+                                  <p v-if="quiz3Clear==3">時間ぎれ</p></div>
+          <div style="width:70%"><p v-if="quiz3Clear >= 2">獲得キーワード：少</p></div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div>
+            <v-flex>
+            <h4>~ストーリー~</h4>
+            <p v-if="quiz2Clear==3">女の子「ちょっと難しかったですか？でも折角なのでもっと遊びましょう！明日ある場所で待っているので私を探し出してみてください。</p>
+            <p v-if="quiz2Clear==2">女の子「本当に凄いですね！折角なのでもっと遊びませんか？ある場所で待っているので私を探し出してみてください。</p>
+            <p>どこにいるかは最初にお渡しした紙を見ればきっとわかると思います。</p>
+            <p>すぐに来ていただけるのも嬉しいですが、宝物を見つけてからでもいいですよ。」</p>
+            </v-flex>
+          </div>
+          <h4>~問題~</h4>
+          <div>
+            <v-img :src="question03Image" width="80vw"/>
+          </div>
+          <div>
+          <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            v-if="quiz3Clear==1"
+            v-model="answerText3"
+            label="解答欄"
+            placeholder="答えを入力"
+          ></v-text-field>
+          </v-col>
+          <v-btn
+            v-if="quiz3Clear==1"
+            color="green" large right
+            @click="submitQ3Text()"
+          >
+          送信
+        </v-btn>
+        </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+<!-- Question4 -->
+
+      <v-expansion-panel v-if="quiz4Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)">4.宝探し中のお知らせ</div>
+        <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
+          <div style="width:30% "><p v-if="quiz4Clear==1">回答中</p>
+                                  <p v-if="quiz4Clear==2">正解</p>
+                                  <p v-if="quiz4Clear==3">時間ぎれ</p></div>
+          <div style="width:70%"><p v-if="quiz4Clear >= 2">獲得キーワード：く</p></div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div>
+            <v-flex>
+            <h4>~ストーリー~</h4>
+            <p>―夜が明け、君たちは宝を目指して進んでいる。するとどこからか手紙が来た。あの女の子だ。―</p>
+            <p>手紙「こんにちは。ヒントが足りないといけないので、今回はなぞなぞをご用意致しました。</p>
+            <p>宝物はみつかりましたか？見つかったらならお願いしたいことがあるんですが…。</p>
+            </v-flex>
+          </div>
+          <h4>~問題~</h4>
+          <div>
+            <v-img :src="question04Image" width="80vw"/>
+          </div>
+          <div>
+          <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            v-if="quiz4Clear==1"
+            v-model="answerText4"
             label="解答欄"
             placeholder="答えを入力"
           ></v-text-field>
           </v-col>
           <v-btn color="green" large right
-          @click="addTeam()">
+            @click="submitQ4Text()"
+            v-if="quiz4Clear==1"
+          >
           送信
         </v-btn>
         </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel>
-        <div>2.#########</div>
-        <v-expansion-panel-header>Panel 2</v-expansion-panel-header>
+<!-- Question5 -->
+
+      <v-expansion-panel v-if="quiz5Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+        <div style="background-color:rgb(91,192,222,0.5)">5.本当の依頼</div>
+        <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
+          <div style="width:30% "><p v-if="quiz5Clear==1">回答中</p>
+                                  <p v-if="quiz5Clear==2">正解</p>
+                                  <p v-if="quiz5Clear==3">時間ぎれ</p></div>
+          <div style="width:70%"><p v-if="quiz5Clear >= 2">獲得キーワード：く</p></div>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
-          Some content
+          <div>
+            <v-flex>
+            <h4>~ストーリー~</h4>
+            <p>―少し遅れてまた手紙が届く。先程の手紙の続きのようだ。―</p>
+            <p>手紙「すぐにでもお会い出来れば嬉しいのですが、もし宝物を見つけた後でお会いできるなら、</p>
+            <p>『宝物と並ぶ幻の食べ物』も持ってきていただけませんか？</p>
+            <p>宝探しで大忙しかも知れませんが、お礼ははずみますよ！」</p>
+            </v-flex>
+          </div>
+          <h4>~問題~</h4>
+          <div>
+            <v-img :src="question02Image" width="80vw"/>
+          </div>
+          <div>
+          <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            v-if="quiz5Clear==1"
+            v-model="answerText5"
+            label="解答欄"
+            placeholder="答えを入力"
+          ></v-text-field>
+          </v-col>
+          <v-btn
+            v-if="quiz5Clear==1"
+            color="green" large right
+            @click="submitQ5Text()">
+          送信
+        </v-btn>
+        </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
-
-      <v-expansion-panel>
-        <div>3.#########</div>
-        <v-expansion-panel-header>Panel 3</v-expansion-panel-header>
-        <v-expansion-panel-content>
-          Some content
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <div>4.#########</div>
-        <v-expansion-panel-header>Panel 4</v-expansion-panel-header>
-        <v-expansion-panel-content>
-          Some content
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <div>5.#########</div>
-        <v-expansion-panel-header>Panel 5</v-expansion-panel-header>
-        <v-expansion-panel-content>
-          Some content
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
 
     </v-expansion-panels>
   </div>
@@ -112,32 +259,31 @@
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここから)
       this.$firestore.doc(`Substory/quiz1`).get()
         .then(doc=>{
-          this.quiz1Title = doc.data().title
-          console.log(this.quiz1Title)
+          this.substoryQ1Answer=doc.data().answer
         });
 
       this.$firestore.doc(`Substory/quiz2`).get()
         .then(doc=>{
-          this.substoryQuiz2 = doc.data()
+          this.substoryQ2Answer=doc.data().answer
         });
 
       this.$firestore.doc(`Substory/quiz3`).get()
         .then(doc=>{
-          this.substoryQuiz3 = doc.data()
+          this.substoryQ3Answer=doc.data().answer
         });
 
       this.$firestore.doc(`Substory/quiz4`).get()
         .then(doc=>{
-          this.substoryQuiz4 = doc.data()
+          this.quiz4Title = doc.data().title
         });
 
       this.$firestore.doc(`Substory/quiz5`).get()
         .then(doc=>{
-          this.substoryQuiz5 = doc.data()
+          this.quiz4Title = doc.data().title
         });
 
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここまで)
-      const uid = "teamXX"
+      const uid = this.$auth.currentUser.uid
       this.$firestore.doc(`Team/${uid}`).get()
         .then(doc=>{
           this.teamStatus = doc.data()
@@ -156,7 +302,7 @@
      data(){
         return {
         hoge:null,
-        panel: [0, 1, 2, 3],
+        panel: [],
         loading:false,
         substoryDatas:[],
         teamStatus:[],
@@ -165,28 +311,39 @@
         substoryQuiz3:[],
         substoryQuiz4:[],
         substoryQuiz5:[],
+        substoryQ1Answer:[],
+        substoryQ2Answer:[],
+        substoryQ3Answer:[],
         quiz1Clear:null,
         quiz2Clear:null,
         quiz3Clear:null,
         quiz4Clear:null,
         quiz5Clear:null,
-        question01Image: require("@/static/Substory01.jpg"),
-        question02Image: require("@/static/Substory02.jpg"),
-        question03Image: require("@/static/Substory03.jpg"),
-        question04Image: require("@/static/Substory04.jpg"),
-        question05Image: require("@/static/Substory05.jpg"),
-        answerText: "",
+        question01Image: require("@/static/SubstoryQ1.jpg"),
+        question02Image: require("@/static/SubstoryQ2.jpg"),
+        question03Image: require("@/static/SubstoryQ3.jpg"),
+        question04Image: require("@/static/SubstoryQ4.jpg"),
+        question05Image: require("@/static/SubstoryQ5.jpg"),
+        answerText1: "",
+        answerText2: "",
+        answerText3: "",
+        answerText4: "",
+        answerText5: "",
         nowDisplayMission: null,
         submitData:{},
         testUid:"",
         cautionOpen:"",
         cautionText:"",
+        answerResOpen:false,
+        answerResComment:"",
+
+
         }
 
     },
     methods:{
     uid(){
-      return this.$auth.currentUser.uid
+      console.log(this.$auth.currentUser.uid)
     },
     /*get(){
       const uid = this.uid()
@@ -199,192 +356,103 @@
     },*/
 
       test(){
-        console.log("uid")
+        const uid = this.$auth.currentUser.uid
+        this.$firestore.doc(`Team/${uid}`).get()
+        .then(doc=>{
+          this.teamStatus = doc.data()
+          this.quiz1Clear = doc.data().subStory.quiz1.clear
+        })
+        console.log(this.quiz1Clear)
       },
       closeCaution(){
-        const uid = "teamXX"
-        this.$firestore.doc(`Team/${uid}`).set({
-          test:"first"
-      })
-      },
-      submitQ1Text(){
-      //this.request.name = this.answerText
-      this.$firestore.collection('subStoryAnswer').add({
-          question:this.quiz1Title,
-          quizNum:1,
-          answerText:this.answerText,
-          submitTime:new Date().getTime()
-      })
+        const uid = this.$auth.currentUser.uid
+
       },
 
-      addTeam(){
-        const uid = "teamXX"
-        this.$firestore.doc(`Team/${uid}`).set({
-          finTime:"",
-          gameStart:false,
-          status:0,
-          startTime:"",
-          limitTime:"",
-          logs:[0],
-          mainMission:{
-            0:{
-              clear:"",
-              id:""
-            },
-            1:{
-              clear:"",
-              id:""
-            },
-            2:{
-              clear:"",
-              id:""
-            },
-            3:{
-              clear:"",
-              id:""
-            },
-            4:{
-              clear:"",
-              id:""
-            },
-            5:{
-              clear:"",
-              id:""
-            },
-            6:{
-              clear:"",
-              id:""
-            },
-            7:{
-              clear:"",
-              id:""
-            },
-            8:{
-              clear:"",
-              id:""
-            },
-            9:{
-              clear:"",
-              id:""
-            },
-            10:{
-              clear:"",
-              id:""
-            },
-            11:{
-              clear:"",
-              id:""
-            },
-            12:{
-              clear:"",
-              id:""
-            },
-            13:{
-              clear:"",
-              id:""
-            },
-            14:{
-              clear:"",
-              id:""
-            },
-            15:{
-              clear:"",
-              id:""
-            },
-            16:{
-              clear:"",
-              id:""
-            },
-            17:{
-              clear:"",
-              id:""
-            },
-            18:{
-              clear:"",
-              id:""
-            },
-            19:{
-              clear:"",
-              id:""
-            },
-            20:{
-              clear:"",
-              id:""
-            },
-            21:{
-              clear:"",
-              id:""
-            },
-            22:{
-              clear:"",
-              id:""
-            },
-            23:{
-              clear:"",
-              id:""
-            },
-            24:{
-              clear:"",
-              id:""
-            },
-            25:{
-              clear:"",
-              id:""
-            },
-            26:{
-              clear:"",
-              id:""
-            },
-            27:{
-              clear:"",
-              id:""
-            },
-            28:{
-              clear:"",
-              id:""
-            },
-            29:{
-              clear:"",
-              id:""
-            },
-          },
-          nowStage:"",
-          photos:{},
-          point:{
-            eventPoint:0,
-            mainPoint:0,
-            subPoint:0,
-            totalPoint:0,
-          },
-          subStory:{
-            quiz1:{
-              clear:1,
-              delieryTime:0,
-              recentAnswer:""
-            },
-            quiz2:{
-              clear:0,
-              delieryTime:0,
-              recentAnswer:""
-            },
-            quiz3:{
-              clear:0,
-              delieryTime:0,
-              recentAnswer:""
-            },
-            quiz4:{
-              clear:0,
-              delieryTime:0,
-              recentAnswer:""
-            },
-            quiz5:{
-              clear:0,
-              delieryTime:0,
-              recentAnswer:""
-            },
+      submitQ1Text(){
+      //this.request.name = this.answerText
+      var arr =  this.substoryQ1Answer;
+          if (arr.indexOf(this.answerText1) >= 0){
+            this.answerResComment = "正解！10ptゲット！"
+            this.addPoints(10)
+            this.statusCrrect("quiz1")
           }
+          if (arr.indexOf(this.answerText1) == -1){
+            this.answerResComment = "不正解！"
+          }
+            this.answerResOpen=!this.answerResOpen
+      },
+      submitQ2Text(){
+      //this.request.name = this.answerText
+      var arr =  this.substoryQ2Answer;
+          if (arr.indexOf(this.answerText2) >= 0){
+            this.answerResComment = "正解！10ptゲット！"
+            this.addPoints(10)
+            this.statusCrrect("quiz2")
+          }
+          if (arr.indexOf(this.answerText2) == -1){
+            this.answerResComment = "不正解！"
+          }
+            this.answerResOpen=!this.answerResOpen
+      },
+      submitQ3Text(){
+      //this.request.name = this.answerText
+      var arr =  this.substoryQ3Answer;
+          if (arr.indexOf(this.answerText3) >= 0){
+            this.answerResComment = "正解！10ptゲット！"
+            this.addPoints(10)
+            this.statusCrrect("quiz3")
+          }
+          if (arr.indexOf(this.answerText3) == -1){
+            this.answerResComment = "不正解！"
+          }
+            this.answerResOpen=!this.answerResOpen
+      },
+      submitQ4Text(){
+      //this.request.name = this.answerText
+        this.$firestore.collection('subStoryAnswer').add({
+          question:this.quiz4Title,
+          team:this.team,
+          quizNum:4,
+          answerText:this.answerText4,
+          submitTime:new Date().getTime()
         })
+        this.answerResComment = "回答を送りました"
+        this.answerResOpen=!this.answerResOpen
+      },
+      submitQ5Text(){
+      //this.request.name = this.answerText
+        this.$firestore.collection('subStoryAnswer').add({
+          question:this.quiz5Title,
+          team:this.team,
+          quizNum:5,
+          answerText:this.answerText5,
+          submitTime:new Date().getTime()
+        })
+      },
+      addPoints(score){
+          const uid = this.$auth.currentUser.uid
+          this.$firestore.doc(`Team/${uid}`).get()
+            .then(doc => {
+                const nowScore = doc.data().point
+                nowScore.subPoint = nowScore.subPoint*1+score
+                this.$firestore.doc(`Team/${uid}`).update({point: nowScore})
+            })
+          this.answerResComment = "回答を送りました"
+          this.answerResOpen=!this.answerResOpen
+      },
+      statusCrrect(quizNum){
+          const uid = this.$auth.currentUser.uid
+          this.$firestore.doc(`Team/${uid}`).get()
+            .then(doc => {
+                const nowScore = doc.data().subStory
+                nowScore[quizNum]["clear"] = 2
+                this.$firestore.doc(`Team/${uid}`).update({subStory: nowScore})
+            })
       }
+
+
+
     }
   }
 </script>
