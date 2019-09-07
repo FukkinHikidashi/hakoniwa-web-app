@@ -69,7 +69,46 @@
     </v-tab-item>
 
     <v-tab-item>
-        ここにサブの提出一覧を入れる
+        <div>
+          <p>クイズスタートトリガー</p>
+          <v-text-field
+              v-model="quizNum1"
+              label="番号入力"
+              placeholder="数字1桁のみ"
+          ></v-text-field>
+          <v-btn @click="startQuiz()">クイズスタート</v-btn>
+        </div>
+
+        <div>
+          <p>クイズ時間切れ</p>
+            <v-text-field
+                v-model="quizNum2"
+                label="番号入力"
+                placeholder="数字1桁のみ"
+            ></v-text-field>
+            <v-btn @click="expireQuiz()">クイズ時間切れ</v-btn>
+        </div>
+
+        <div>
+          <p>クイズ正解or不正解</p>
+            <v-text-field
+                v-model="team"
+                label="チームアルファベット"
+                placeholder="英字1文字のみ"
+            ></v-text-field>
+            <v-text-field
+                v-model="quizNum3"
+                label="番号入力"
+                placeholder="数字1桁のみ"
+            ></v-text-field>
+            <v-btn @click="acceptQuiz(10)">承認</v-btn>
+            <v-btn @click="denyQuiz()">却下</v-btn>
+        </div>
+
+        <div>
+        Bチーム合計{{this.subStroyPoint}}点
+        </div>
+
     </v-tab-item>
     </v-tabs-items>
 
@@ -93,7 +132,22 @@ export default {
             return (a.key > b.key ? 1 : -1)
         })
         await console.log({mainMissionAnswers:this.mainMissionAnswers})
-
+//ここからsubStory用
+        var uid = "wPenfOmOi4Y8ibxERyqzLU63TTe2"
+        this.$firestore.doc(`Team/${uid}`).get()
+        .then(doc=>{
+          this.team =  doc.data().team
+          this.subStories[this.team] = doc.data().subStory
+          this.subStroyPoint[this.team] =  doc.data().point.subPoint
+        })
+        uid = "Nv7y16tkN8NYdjYP6cup3Q4IW363"
+        this.$firestore.doc(`Team/${uid}`).get()
+        .then(doc=>{
+          this.team =  doc.data().team
+         this.subStories["A"] = doc.data().subStory
+          this.subStroyPoint["A"] =  doc.data().point.subPoint
+        })
+        console.log(this.$auth.currentUser.uid)
     },
     data(){
         return {
@@ -104,7 +158,14 @@ export default {
         mainMissionAnswers:[],
         nowCard:{},
         subStoryAnswers:[],
-
+        subStories:{},
+        subStroyPoint:{},
+        quizNum1:"",
+        quizNum2:"",
+        quizNum3:"",
+        team:"",
+        uid:"",
+        quizStatus:["未開放","回答中","正解","時間切れ"]
         }
     },
     methods:{
@@ -201,11 +262,63 @@ export default {
 
 
         },
-        acceptSubStoryAnswer(){
-
+        startQuizMethod(uid){
+          var quizNumText = "quiz" + this.quizNum1
+          this.$firestore.doc(`Team/${uid}`).get()
+            .then(doc => {
+              const nowScore = doc.data().subStory
+              if(nowScore[quizNumText]["clear"]==0){
+                nowScore[quizNumText]["clear"] = 1
+                nowScore.caution.cautionOpened = true
+                nowScore.caution.cautionMess ="サブストーリが進みました"
+                this.$firestore.doc(`Team/${uid}`).update({subStory: nowScore})
+              }
+            })
         },
-        denySubStoryAnswer(){
+        startQuiz(){
+          this.startQuizMethod("dOz1WsyLrJZ0CaCDnA0bcKKZ6Wc2")
+          this.startQuizMethod("wPenfOmOi4Y8ibxERyqzLU63TTe2")
+          this.startQuizMethod("Nv7y16tkN8NYdjYP6cup3Q4IW363")
+        },
 
+        expireQuizMethod(uid){
+          var quizNumText = "quiz" + this.quizNum2
+          this.$firestore.doc(`Team/${uid}`).get()
+            .then(doc => {
+              const nowScore = doc.data().subStory
+              if(nowScore[quizNumText]["clear"]==1){
+                nowScore[quizNumText]["clear"] = 3
+                nowScore.caution.cautionOpened = true
+                nowScore.caution.cautionMess ="時間切れのクイズがあります…。"
+                this.$firestore.doc(`Team/${uid}`).update({subStory: nowScore})
+              }
+            })
+        },
+        expireQuiz(){
+          this.expireQuizMethod("dOz1WsyLrJZ0CaCDnA0bcKKZ6Wc2")
+          this.expireQuizMethod("wPenfOmOi4Y8ibxERyqzLU63TTe2")
+          this.expireQuizMethod("Nv7y16tkN8NYdjYP6cup3Q4IW363")
+        },
+        acceptQuiz(score){
+          if(this.team=="A"){
+              this.uid="Nv7y16tkN8NYdjYP6cup3Q4IW363"
+          }else if(this.team=="B"){
+              this.uid="wPenfOmOi4Y8ibxERyqzLU63TTe2"
+          }else{
+              this.uid=""
+          }
+          var quizNumText = "quiz" + this.quizNum3
+          this.$firestore.doc(`Team/${this.uid}`).get()
+            .then(doc => {
+              const nowScore = doc.data().subStory
+              if(nowScore[quizNumText]["clear"]==1){
+                nowScore[quizNumText]["clear"] = 2
+                nowScore.caution.cautionOpened = true
+                nowScore.mainPoint = nowScore.mainPoint*1 + score
+                nowScore.caution.cautionMess = nowScore.caution.cautionMess +"クイズ"+this.quizNum3+"に正解しました。"
+                this.$firestore.doc(`Team/${this.uid}`).update({subStory: nowScore})
+              }
+            })
         },
         sendMessageToAll(){
 

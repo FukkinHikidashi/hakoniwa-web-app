@@ -13,11 +13,12 @@
       </div>
     </div>
 
-    <v-btn @click="alterTeam()">test</v-btn>
+    <v-btn @click="test()">test</v-btn>
 
-    <v-dialog v-model="cautionOpen">
-      <v-card  >
-      <div style="padding:50px" align="center"><h3>サブストーリーが<br>更新されました。</h3></div>
+    <v-dialog v-model="cautionOpened" style="padding-bottom:10px">
+      <v-card align="center" >
+      <div  style="padding:50px" align="center"><h3>{{cautionMess}}</h3></div>
+      <v-btn  @click="cautionClose()" ><h4>確認しました。</h4></v-btn>
       </v-card>
     </v-dialog>
 
@@ -170,7 +171,7 @@
           <div style="width:30% "><p v-if="quiz4Clear==1">回答中</p>
                                   <p v-if="quiz4Clear==2">正解</p>
                                   <p v-if="quiz4Clear==3">時間ぎれ</p></div>
-          <div style="width:70%"><p v-if="quiz4Clear >= 2">獲得キーワード：く</p></div>
+          <div style="width:70%"><p v-if="quiz4Clear >= 2">獲得キーワード：京</p></div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div>
@@ -178,7 +179,7 @@
             <h4>~ストーリー~</h4>
             <p>―夜が明け、君たちは宝を目指して進んでいる。するとどこからか手紙が来た。あの女の子だ。―</p>
             <p>手紙「こんにちは。ヒントが足りないといけないので、今回はなぞなぞをご用意致しました。</p>
-            <p>宝物はみつかりましたか？見つかったらならお願いしたいことがあるんですが…。</p>
+            <p>宝物はみつかりましたか？見つかったならお願いしたいことがあるんですが…。</p>
             </v-flex>
           </div>
           <h4>~問題~</h4>
@@ -212,7 +213,7 @@
           <div style="width:30% "><p v-if="quiz5Clear==1">回答中</p>
                                   <p v-if="quiz5Clear==2">正解</p>
                                   <p v-if="quiz5Clear==3">時間ぎれ</p></div>
-          <div style="width:70%"><p v-if="quiz5Clear >= 2">獲得キーワード：く</p></div>
+          <div style="width:70%"><p v-if="quiz5Clear >= 2">獲得キーワード：止</p></div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div>
@@ -256,6 +257,7 @@
   export default {
     beforeCreate(){
       this.loading = true
+
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここから)
       this.$firestore.doc(`Substory/quiz1`).get()
         .then(doc=>{
@@ -279,7 +281,7 @@
 
       this.$firestore.doc(`Substory/quiz5`).get()
         .then(doc=>{
-          this.quiz4Title = doc.data().title
+          this.quiz5Title = doc.data().title
         });
 
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここまで)
@@ -293,9 +295,13 @@
           this.quiz4Clear = doc.data().subStory.quiz4.clear
           this.quiz5Clear = doc.data().subStory.quiz5.clear
           this.team = doc.data().team
-          this.cautionOpen = doc.data().subStory.caution
+          this.cautionOpened = doc.data().subStory.caution.cautionOpened
+          this.cautionMess = doc.data().subStory.caution.cautionMess
 
         });
+       console.log(this.quiz4Title)
+       console.log(this.team)
+       console.log(this.answerText4)
 
     },
 
@@ -332,8 +338,8 @@
         nowDisplayMission: null,
         submitData:{},
         testUid:"",
-        cautionOpen:"",
-        cautionText:"",
+        cautionOpened:"",
+        cautionMess:"",
         answerResOpen:false,
         answerResComment:"",
 
@@ -358,29 +364,41 @@
       test(){
         const uid = this.$auth.currentUser.uid
         this.$firestore.doc(`Team/${uid}`).get()
-        .then(doc=>{
-          this.teamStatus = doc.data()
-          this.quiz1Clear = doc.data().subStory.quiz1.clear
+          .then(doc => {
+              const nowScore = doc.data().subStory
+              nowScore.caution.cautionOpened = true
+              nowScore.caution.cautionMess ="サブストーリが進みました!"
+              this.$firestore.doc(`Team/${uid}`).update({subStory: nowScore})
         })
-        console.log(this.quiz1Clear)
       },
-      closeCaution(){
+      cautionClose(){
         const uid = this.$auth.currentUser.uid
+        this.$firestore.doc(`Team/${uid}`).get()
+          .then(doc => {
+              const nowScore = doc.data().subStory
+              nowScore.caution.cautionMess = ""
+              nowScore.caution.cautionOpened = false
+              this.cautionOpened = false
+              this.$firestore.doc(`Team/${uid}`).update({subStory: nowScore})
+          })
 
       },
 
       submitQ1Text(){
       //this.request.name = this.answerText
       var arr =  this.substoryQ1Answer;
+      console.log(this.answerResComment)
           if (arr.indexOf(this.answerText1) >= 0){
             this.answerResComment = "正解！10ptゲット！"
             this.addPoints(10)
             this.statusCrrect("quiz1")
+            this.quiz1Clear=2
           }
           if (arr.indexOf(this.answerText1) == -1){
             this.answerResComment = "不正解！"
           }
             this.answerResOpen=!this.answerResOpen
+            console.log(this.answerResComment)
       },
       submitQ2Text(){
       //this.request.name = this.answerText
@@ -389,6 +407,7 @@
             this.answerResComment = "正解！10ptゲット！"
             this.addPoints(10)
             this.statusCrrect("quiz2")
+            this.quiz2Clear=2
           }
           if (arr.indexOf(this.answerText2) == -1){
             this.answerResComment = "不正解！"
@@ -402,6 +421,7 @@
             this.answerResComment = "正解！10ptゲット！"
             this.addPoints(10)
             this.statusCrrect("quiz3")
+            this.quiz3Clear=2
           }
           if (arr.indexOf(this.answerText3) == -1){
             this.answerResComment = "不正解！"
@@ -429,6 +449,8 @@
           answerText:this.answerText5,
           submitTime:new Date().getTime()
         })
+        this.answerResComment = "回答を送りました"
+        this.answerResOpen=!this.answerResOpen
       },
       addPoints(score){
           const uid = this.$auth.currentUser.uid
@@ -438,8 +460,7 @@
                 nowScore.subPoint = nowScore.subPoint*1+score
                 this.$firestore.doc(`Team/${uid}`).update({point: nowScore})
             })
-          this.answerResComment = "回答を送りました"
-          this.answerResOpen=!this.answerResOpen
+
       },
       statusCrrect(quizNum){
           const uid = this.$auth.currentUser.uid

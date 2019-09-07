@@ -1,7 +1,7 @@
 <template>
 <div>
 <!-- firebase登録用にとりあえず作ったやつをおいておく場所-->
-    <v-btn @click="alterTeam()">create</v-btn>
+    <v-btn @click="addTeam()">create</v-btn>
 
     <v-img src="https://firebasestorage.googleapis.com/v0/b/hakoniwa-190818.appspot.com/o/1567023462324?alt=media&token=a992e9ff-8d07-430c-ad79-fc35d694ef45"></v-img>
 </div>
@@ -26,7 +26,7 @@ export default {
             })
         },
         addTeam(){
-          const uid = "teamXX"
+          const uid = "dOz1WsyLrJZ0CaCDnA0bcKKZ6Wc2"
           this.$firestore.collection("Team").doc(`${uid}`).set({
             finTime:"",
             gameStart:true,
@@ -34,128 +34,128 @@ export default {
             startTime:"",
             limitTime:"",
             logs:[0],
-            mainMission:{
-              0:{
+            mainMission:[
+              {
                 clear:"",
                 id:""
               },
-              1:{
+              {
                 clear:"",
                 id:""
               },
-              2:{
+              {
                 clear:"",
                 id:""
               },
-              3:{
+              {
                 clear:"",
                 id:""
               },
-              4:{
+              {
                 clear:"",
                 id:""
               },
-              5:{
+              {
                 clear:"",
                 id:""
               },
-              6:{
+              {
                 clear:"",
                 id:""
               },
-              7:{
+              {
                 clear:"",
                 id:""
               },
-              8:{
+              {
                 clear:"",
                 id:""
               },
-              9:{
+              {
                 clear:"",
                 id:""
               },
-              10:{
+              {
                 clear:"",
                 id:""
               },
-              11:{
+              {
                 clear:"",
                 id:""
               },
-              12:{
+              {
                 clear:"",
                 id:""
               },
-              13:{
+              {
                 clear:"",
                 id:""
               },
-              14:{
+              {
                 clear:"",
                 id:""
               },
-              15:{
+              {
                 clear:"",
                 id:""
               },
-              16:{
+              {
                 clear:"",
                 id:""
               },
-              17:{
+              {
                 clear:"",
                 id:""
               },
-              18:{
+              {
                 clear:"",
                 id:""
               },
-              19:{
+              {
                 clear:"",
                 id:""
               },
-              20:{
+              {
                 clear:"",
                 id:""
               },
-              21:{
+              {
                 clear:"",
                 id:""
               },
-              22:{
+              {
                 clear:"",
                 id:""
               },
-              23:{
+              {
                 clear:"",
                 id:""
               },
-              24:{
+              {
                 clear:"",
                 id:""
               },
-              25:{
+              {
                 clear:"",
                 id:""
               },
-              26:{
+              {
                 clear:"",
                 id:""
               },
-              27:{
+              {
                 clear:"",
                 id:""
               },
-              28:{
+              {
                 clear:"",
                 id:""
               },
-              29:{
+              {
                 clear:"",
                 id:""
               },
-            },
+            ],
             nowStage:"",
             photos:{},
             point:{
@@ -165,6 +165,10 @@ export default {
               totalPoint:0,
             },
             subStory:{
+              caution:{
+                cautionOpened:false,
+                cautionMess:""
+              },
               quiz1:{
                 clear:1,
                 delieryTime:0,
