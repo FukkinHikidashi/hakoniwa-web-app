@@ -69,7 +69,8 @@
     </v-tab-item>
 
     <v-tab-item>
-        <div>
+      <div div style="margin-top:10px;padding-bottom:10px;width:96vw; margin-left:auto;margin-right:auto;">
+        <div style="border:solid 2px rgb(91,192,222,0.5)">
           <p>クイズスタートトリガー</p>
           <v-text-field
               v-model="quizNum1"
@@ -79,7 +80,7 @@
           <v-btn @click="startQuiz()">クイズスタート</v-btn>
         </div>
 
-        <div>
+        <div style="border:solid 2px rgb(91,192,222,0.5)">
           <p>クイズ時間切れ</p>
             <v-text-field
                 v-model="quizNum2"
@@ -89,7 +90,7 @@
             <v-btn @click="expireQuiz()">クイズ時間切れ</v-btn>
         </div>
 
-        <div>
+        <div style="border:solid 2px rgb(91,192,222,0.5)">
           <p>クイズ正解or不正解</p>
             <v-text-field
                 v-model="team"
@@ -105,10 +106,14 @@
             <v-btn @click="denyQuiz()">却下</v-btn>
         </div>
 
-        <div>
-        Bチーム合計{{this.subStroyPoint}}点
+        <div style="border:solid 2px rgb(91,192,222,0.5)">
+        <p>Aチーム合計{{subStroyPoint.A}}点</p>
+        <p>{{AStatus}}</p>
+        <p>Bチーム合計{{subStroyPoint.B}}点</p>
+        <p>{{BStatus}}</p>
+        <v-btn @click="getStatus()">取得</v-btn>
         </div>
-
+      </div>
     </v-tab-item>
     </v-tabs-items>
 
@@ -133,21 +138,9 @@ export default {
         })
         await console.log({mainMissionAnswers:this.mainMissionAnswers})
 //ここからsubStory用
-        var uid = "wPenfOmOi4Y8ibxERyqzLU63TTe2"
-        this.$firestore.doc(`Team/${uid}`).get()
-        .then(doc=>{
-          this.team =  doc.data().team
-          this.subStories[this.team] = doc.data().subStory
-          this.subStroyPoint[this.team] =  doc.data().point.subPoint
-        })
-        uid = "Nv7y16tkN8NYdjYP6cup3Q4IW363"
-        this.$firestore.doc(`Team/${uid}`).get()
-        .then(doc=>{
-          this.team =  doc.data().team
-         this.subStories["A"] = doc.data().subStory
-          this.subStroyPoint["A"] =  doc.data().point.subPoint
-        })
-        console.log(this.$auth.currentUser.uid)
+
+
+
     },
     data(){
         return {
@@ -165,7 +158,10 @@ export default {
         quizNum3:"",
         team:"",
         uid:"",
-        quizStatus:["未開放","回答中","正解","時間切れ"]
+        quizStatus:["未開放","回答中","正解","時間切れ"],
+        AStatus:[],
+        BStatus:[],
+        Qnum:"",
         }
     },
     methods:{
@@ -320,7 +316,35 @@ export default {
               }
             })
         },
-        sendMessageToAll(){
+        getStatus(){
+          var uid = "wPenfOmOi4Y8ibxERyqzLU63TTe2"
+          this.$firestore.doc(`Team/${uid}`).get()
+          .then(doc=>{
+            this.team =  doc.data().team
+            this.subStories[this.team] = doc.data().subStory
+            this.subStroyPoint[this.team] =  doc.data().point.subPoint
+          })
+          uid = "Nv7y16tkN8NYdjYP6cup3Q4IW363"
+          this.$firestore.doc(`Team/${uid}`).get()
+          .then(doc=>{
+            this.team =  doc.data().team
+          this.subStories["A"] = doc.data().subStory
+            this.subStroyPoint["A"] =  doc.data().point.subPoint
+          })
+          console.log(this.$auth.currentUser.uid)
+
+          for(this.Qnum in this.subStories.A){
+            this.AStatus[this.Qnum]=this.quizStatus[this.subStories.A[this.Qnum].clear]
+            //console.log(subStories.A[Qnum].clear)
+
+          }
+          console.log(this.AStatus)
+          for(this.Qnum in this.subStories.B){
+            this.BStatus[this.Qnum]=this.quizStatus[this.subStories.B[this.Qnum].clear]
+            //console.log(subStories.B[Qnum].clear)
+
+          }
+          console.log(this.BStatus)
 
         },
         sendMessageToTeam(uid){
