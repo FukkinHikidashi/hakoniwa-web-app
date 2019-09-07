@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="cautionOpen">
+    <v-dialog v-model="cautionOpen" @click="test()">
       <v-card  >
       <div style="padding:50px" align="center"><h3>サブストーリーが<br>更新されました。</h3></div>
       </v-card>
@@ -43,6 +43,7 @@
             <p>ストーリー</p>
             <p>―君たちは始まるトレージャーバトルを前に酒場で酒盛りをしている。―</p>
             <p>酒場の店主「やあ元気かい？お前らに預かりもんだぞ。」店主はそう笑いながら１枚の紙を差し出してきた。</p>
+            {{answerText}}
             </v-flex>
           </div>
           <p>問題</p>
@@ -53,13 +54,13 @@
           <div>
           <v-col cols="12" sm="6" md="3">
           <v-text-field
-            v-model="text4Submit"
+            v-model="answerText"
             label="解答欄"
             placeholder="答えを入力"
           ></v-text-field>
           </v-col>
           <v-btn color="green" large right
-          @click="submitQ1Text()">
+          @click="addTeam()">
           送信
         </v-btn>
         </div>
@@ -107,25 +108,22 @@
 
   export default {
     beforeCreate(){
-      this.cautionOpen = true
       this.loading = true
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここから)
       this.$firestore.doc(`Substory/quiz1`).get()
         .then(doc=>{
           this.quiz1Title = doc.data().title
-
+          console.log(this.quiz1Title)
         });
 
       this.$firestore.doc(`Substory/quiz2`).get()
         .then(doc=>{
           this.substoryQuiz2 = doc.data()
-
         });
 
       this.$firestore.doc(`Substory/quiz3`).get()
         .then(doc=>{
           this.substoryQuiz3 = doc.data()
-
         });
 
       this.$firestore.doc(`Substory/quiz4`).get()
@@ -136,7 +134,6 @@
       this.$firestore.doc(`Substory/quiz5`).get()
         .then(doc=>{
           this.substoryQuiz5 = doc.data()
-
         });
 
 //collectionから取るとうまく行かないのでquiz1-5でそれぞれ取っちゃう(ここまで)
@@ -150,8 +147,10 @@
           this.quiz4Clear = doc.data().subStory.quiz4.clear
           this.quiz5Clear = doc.data().subStory.quiz5.clear
           this.team = doc.data().team
+          this.cautionOpen = doc.data().subStory.caution
 
         });
+
     },
 
      data(){
@@ -176,13 +175,14 @@
         question03Image: require("@/static/Substory03.jpg"),
         question04Image: require("@/static/Substory04.jpg"),
         question05Image: require("@/static/Substory05.jpg"),
-        text4Submit: "",
+        answerText: "",
         nowDisplayMission: null,
         submitData:{},
         testUid:"",
-        cautionOpen:false,
-        cautionText:""
+        cautionOpen:"",
+        cautionText:"",
         }
+
     },
     methods:{
     uid(){
@@ -201,15 +201,189 @@
       test(){
         console.log("uid")
       },
+      closeCaution(){
+        const uid = "teamXX"
+        this.$firestore.doc(`Team/${uid}`).set({
+          test:"first"
+      })
+      },
       submitQ1Text(){
-      console.log(this.quiz1Title)
+      //this.request.name = this.answerText
       this.$firestore.collection('subStoryAnswer').add({
           question:this.quiz1Title,
           quizNum:1,
-          answerText:this.text4Submit,
+          answerText:this.answerText,
           submitTime:new Date().getTime()
       })
+      },
 
+      addTeam(){
+        const uid = "teamXX"
+        this.$firestore.doc(`Team/${uid}`).set({
+          finTime:"",
+          gameStart:false,
+          status:0,
+          startTime:"",
+          limitTime:"",
+          logs:[0],
+          mainMission:{
+            0:{
+              clear:"",
+              id:""
+            },
+            1:{
+              clear:"",
+              id:""
+            },
+            2:{
+              clear:"",
+              id:""
+            },
+            3:{
+              clear:"",
+              id:""
+            },
+            4:{
+              clear:"",
+              id:""
+            },
+            5:{
+              clear:"",
+              id:""
+            },
+            6:{
+              clear:"",
+              id:""
+            },
+            7:{
+              clear:"",
+              id:""
+            },
+            8:{
+              clear:"",
+              id:""
+            },
+            9:{
+              clear:"",
+              id:""
+            },
+            10:{
+              clear:"",
+              id:""
+            },
+            11:{
+              clear:"",
+              id:""
+            },
+            12:{
+              clear:"",
+              id:""
+            },
+            13:{
+              clear:"",
+              id:""
+            },
+            14:{
+              clear:"",
+              id:""
+            },
+            15:{
+              clear:"",
+              id:""
+            },
+            16:{
+              clear:"",
+              id:""
+            },
+            17:{
+              clear:"",
+              id:""
+            },
+            18:{
+              clear:"",
+              id:""
+            },
+            19:{
+              clear:"",
+              id:""
+            },
+            20:{
+              clear:"",
+              id:""
+            },
+            21:{
+              clear:"",
+              id:""
+            },
+            22:{
+              clear:"",
+              id:""
+            },
+            23:{
+              clear:"",
+              id:""
+            },
+            24:{
+              clear:"",
+              id:""
+            },
+            25:{
+              clear:"",
+              id:""
+            },
+            26:{
+              clear:"",
+              id:""
+            },
+            27:{
+              clear:"",
+              id:""
+            },
+            28:{
+              clear:"",
+              id:""
+            },
+            29:{
+              clear:"",
+              id:""
+            },
+          },
+          nowStage:"",
+          photos:{},
+          point:{
+            eventPoint:0,
+            mainPoint:0,
+            subPoint:0,
+            totalPoint:0,
+          },
+          subStory:{
+            quiz1:{
+              clear:1,
+              delieryTime:0,
+              recentAnswer:""
+            },
+            quiz2:{
+              clear:0,
+              delieryTime:0,
+              recentAnswer:""
+            },
+            quiz3:{
+              clear:0,
+              delieryTime:0,
+              recentAnswer:""
+            },
+            quiz4:{
+              clear:0,
+              delieryTime:0,
+              recentAnswer:""
+            },
+            quiz5:{
+              clear:0,
+              delieryTime:0,
+              recentAnswer:""
+            },
+          }
+        })
       }
     }
   }
