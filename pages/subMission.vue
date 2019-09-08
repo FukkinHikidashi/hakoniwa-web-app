@@ -6,14 +6,13 @@
       </div>
       <div style="margin-top:5px;margin-bottom:10px;border:solid 2px rgb(91,192,222,0.5)">
         <p v-if="quiz1Clear==0">comming soon</p>
-        <p v-if="quiz1Clear!=0">ここは宝が眠る謎の塔の見える町。トレジャーハントに出かける前夜、町の酒場で英気を養うあなたたちに不思議な依頼が舞い込みました。</p>
-        <p v-if="quiz1Clear!=0">※クイズに挑戦してもらったキーワードをもとに女の子に会いに行こう！<br>
+        <p v-if="quiz1Clear >= 1 ">ここは宝が眠る謎の塔の見える町。トレジャーハントに出かける前夜、町の酒場で英気を養うあなたたちに不思議な依頼が舞い込みました。</p>
+        <p v-if="quiz1Clear >= 1 ">※クイズに挑戦してもらったキーワードをもとに女の子に会いに行こう！<br>
                                 クイズに正解するとポイントをゲットできるぞ！※</p>
 
       </div>
     </div>
 
-    <v-btn @click="test()">test</v-btn>
 
     <v-dialog v-model="cautionOpened" style="padding-bottom:10px">
       <v-card align="center" >
@@ -38,7 +37,7 @@
       style="margin-top:5px"
     >
 <!-- Question1 -->
-      <v-expansion-panel v-if="quiz1Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+      <v-expansion-panel v-if="quiz1Clear >= 1 " style="border:solid 2px rgb(91,192,222,0.5)">
         <div style="background-color:rgb(91,192,222,0.5)">1.町の酒場での不思議な依頼</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
           <div style="width:30% "><p v-if="quiz1Clear==1">回答中</p>
@@ -79,7 +78,7 @@
       </v-expansion-panel>
 <!-- Question2 -->
 
-      <v-expansion-panel v-if="quiz2Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+      <v-expansion-panel v-if="quiz2Clear >= 1 " style="border:solid 2px rgb(91,192,222,0.5)">
         <div style="background-color:rgb(91,192,222,0.5)">2.依頼主の女の子</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
           <div style="width:30% "><p v-if="quiz2Clear==1">回答中</p>
@@ -122,7 +121,7 @@
       </v-expansion-panel>
 <!-- Question3 -->
 
-      <v-expansion-panel v-if="quiz3Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+      <v-expansion-panel v-if="quiz3Clear >= 1 " style="border:solid 2px rgb(91,192,222,0.5)">
         <div style="background-color:rgb(91,192,222,0.5)">3.会いたがってる女の子</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
           <div style="width:30% "><p v-if="quiz3Clear==1">回答中</p>
@@ -165,7 +164,7 @@
       </v-expansion-panel>
 <!-- Question4 -->
 
-      <v-expansion-panel v-if="quiz4Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+      <v-expansion-panel v-if="quiz4Clear >= 1 " style="border:solid 2px rgb(91,192,222,0.5)">
         <div style="background-color:rgb(91,192,222,0.5)">4.宝探し中のお知らせ</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
           <div style="width:30% "><p v-if="quiz4Clear==1">回答中</p>
@@ -207,7 +206,7 @@
 
 <!-- Question5 -->
 
-      <v-expansion-panel v-if="quiz5Clear!=0" style="border:solid 2px rgb(91,192,222,0.5)">
+      <v-expansion-panel v-if="quiz5Clear >= 1 " style="border:solid 2px rgb(91,192,222,0.5)">
         <div style="background-color:rgb(91,192,222,0.5)">5.本当の依頼</div>
         <v-expansion-panel-header style="border-bottom:solid 1px rgb(70,70,70,0.5)">
           <div style="width:30% "><p v-if="quiz5Clear==1">回答中</p>
@@ -227,7 +226,7 @@
           </div>
           <h4>~問題~</h4>
           <div>
-            <v-img :src="question02Image" width="80vw"/>
+            <v-img :src="question05Image" width="80vw"/>
           </div>
           <div>
           <v-col cols="12" sm="6" md="3">

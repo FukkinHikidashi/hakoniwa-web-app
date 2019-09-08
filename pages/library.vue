@@ -8,8 +8,8 @@
         >
         <v-layout>
             <v-tab>Photos</v-tab>
-            <v-tab>Logs</v-tab>
-            <v-tab disabled>Trails</v-tab>
+            <!--<v-tab>Logs</v-tab>-->
+            <!--<v-tab disabled>Trails</v-tab>-->
         </v-layout>
         </v-tabs>
 

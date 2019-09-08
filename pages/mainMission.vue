@@ -99,7 +99,7 @@ v-model="tab">
 
 <v-tab-item>
   <v-card color="light-blue lighten-4" flat>
-  <v-container v-if="nowStage === 4">
+  <v-container v-if="nowStage === 4 || nowStage === 5">
       <v-layout justify-center wrap width="100vw">
       <div v-for="data in stage4" :key="data.id">
       <v-card width="50vw" height="50vw" tile
@@ -123,7 +123,7 @@ v-model="tab">
 
 </v-tabs-items>
 
-    <v-card color="amber lighten-3" class="ma-2 align-center justify-center pa-1" style="height: 10vh"
+    <v-card color="amber lighten-3" class="ma-2 align-center justify-center pa-1" style="height: 20vh"
     @click="photoDialog=true">
       <p>{{nowDisplayText}}</p>
     </v-card>
@@ -143,7 +143,7 @@ v-model="tab">
   </v-dialog>
     </div>
   </div>
-  <div v-if="nowDStage = 4 && tab ===3">
+  <div v-if="nowStage >= 4 && tab ===3">
     <v-dialog v-model="photoDialog">
       <v-card>
       <v-container>
@@ -202,13 +202,26 @@ v-model="tab">
       <v-container>
       <v-layout column wrap justify-center align-center>
       <h2>ビンゴ！</h2>
-      <v-img class="mb-3" :src="photoPreviedWhenBingo[nowStage]" />
+      <v-img class="mb-3" :src="photoPreviedWhenBingo[nowStage - 1]"/>
       <v-btn color="primary"
       center
       large
       @click="toNext()">次の階へ進む！</v-btn>
       </v-layout>
       </v-container>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="last">
+    <v-card>
+    <v-container>
+        <p>次の場所に宝箱はあります</p>
+        <p>・【なんば駅】 が最寄りです！</p>
+        <p>・【アートパーク】 と呼ばれています！</p>
+        <p>・【シカゴギャラリー】 とも呼ばれています！</p>
+        <p>※サポートスタッフがいますので安心してください。</p>
+        <v-img src="https://drive.google.com/uc?export=view&id=1KR-k-R8-JW-qxo5puSk7ZMBKcpgS9U8t" />
+    </v-container>    
     </v-card>
   </v-dialog>
 
@@ -352,6 +365,10 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
 
       this.tab = await this.nowStage - 1
 
+      if(this.nowStage === 5){
+        this.last = true
+      }
+
     },
     components: { UploadBtn },
     data() {
@@ -360,6 +377,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         team: "",
         dialog: false,
         photoDialog: false,
+        last: false,
         nowStage: null,
         tab: null,
         score: null,
@@ -383,10 +401,11 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         confirmText: "",
         url:"",
         photoPreviedWhenBingo:
-        ["https://drive.google.com/uc?export=view&id=1X0Y4DD5f7cQzel3vGfIe7AL07CRfRd-4",
-        "https://images.unsplash.com/photo-1560013764-b45ee3b3d786?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9",
-        "https://images.unsplash.com/photo-1549315311-697952be6cce?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
+        ["https://drive.google.com/uc?export=view&id=13jM6q1xFU_cYd7zNnzFtXwpyKnYmaSVO",
+        "https://drive.google.com/uc?export=view&id=1ykeObc5uNRc8ronqEW-J7KVIffksdFXi",
+        "https://drive.google.com/uc?export=view&id=1DgD2MIYA1NsxWXqkKqFTejT0niGoXjSB"
         ]
+
 
 
       }
@@ -426,6 +445,7 @@ return (rowBingo.indexOf(true) >= 0  || columnBingo.indexOf(true) >= 0)
         if(x.answerType === "text"){
           this.answerTypeExplain = "テキストを入力して送信"
         }
+        console.log(this.nowDisplayMission.id)
 
       },
       async toNext(){

@@ -18,14 +18,17 @@
 </v-layout>
 </v-container>
 
-<v-dialog v-model="story">
+<v-dialog v-model="story" fullscreen>
 <v-container>
-  <v-layout wrap justify-center align-center>
-      <v-img class="mb-3" :src="storyImg" />
-      <v-btn color="orange" large
-      @click="story=false">戻る</v-btn>
-  </v-layout>
-</v-container>
+
+      <v-layout column wrap justify-center align-center>
+      <v-carousel class="mb-3">
+    <v-carousel-item v-for="(item,i) in storyPicture" :src="item" :key="i"></v-carousel-item>
+  </v-carousel>
+        <v-btn @click="story=false" color="primary">戻る</v-btn>
+      </v-layout>
+      </v-container>
+
 </v-dialog>
 
 <v-container class="mt-5">
@@ -73,7 +76,7 @@
     <v-flex xs7>
       <v-layout row wrap>
       <v-container>
-        <p>突発イベントも開催！？<br>【現在準備中】</p>
+        <p>終了後にはボーナス！？<br>【現在準備中】</p>
       </v-container>
       </v-layout>
     </v-flex>
@@ -104,6 +107,7 @@ export default {
     },
     data () {
       return {
+        photoDialog: false,
         team: null,
         mainPoint: null,
         subPoint: null,
@@ -112,7 +116,10 @@ export default {
         activeBtn: 1,
         bottomNav: true,
         story: false,
-        storyImg : "https://drive.google.com/uc?export=view&id=1SPQ180-i0S1Hg5ZxTqnj7qBaFVnNwyhh"
+        storyPicture: [
+          "https://drive.google.com/uc?export=view&id=1MSh_Hl5OrFswfz54Bv-VnsBdDj6Tc593",
+          "https://drive.google.com/uc?export=view&id=1snErCmC42WMRFonhR-xWd9kMFyTqaXRm"
+        ]
       }
     }
 

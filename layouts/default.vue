@@ -15,14 +15,15 @@
 
         <v-spacer />
 
-        <v-btn
+        <!--<v-btn
         fab
         dark
         right
         fixed
-        color="green">
+        color="green"
+        to="http://nav.cx/36VLrwL">
         LINE
-        </v-btn>
+        </v-btn>-->
 
     </v-toolbar>
 </v-card>

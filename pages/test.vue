@@ -1,9 +1,8 @@
 <template>
 <div>
 <!-- firebase登録用にとりあえず作ったやつをおいておく場所-->
-    <v-btn @click="addTeam()">create</v-btn>
+    <v-btn @click="createTeamData()">create</v-btn>
 
-    <v-img src="https://firebasestorage.googleapis.com/v0/b/hakoniwa-190818.appspot.com/o/1567023462324?alt=media&token=a992e9ff-8d07-430c-ad79-fc35d694ef45"></v-img>
 </div>
 </template>
 
@@ -17,14 +16,14 @@ export default {
 
         }
     },
-    methods:{
+    methods:{/*あぶなっかしいので一旦けす
         async createTeamData(){
-            this.$firestore.collection("Team").doc("backup").get()
+            this.$firestore.collection("Team").doc("wPenfOmOi4Y8ibxERyqzLU63TTe2").get()
             .then(doc => {
 
-                this.$firestore.collection("Team").doc("wPenfOmOi4Y8ibxERyqzLU63TTe2").set(doc.data())
+                this.$firestore.collection("Team").doc("Nv7y16tkN8NYdjYP6cup3Q4IW363").set(doc.data())
             })
-        },
+        },*/
         addTeam(){
           const uid = "dOz1WsyLrJZ0CaCDnA0bcKKZ6Wc2"
           this.$firestore.collection("Team").doc(`${uid}`).set({
